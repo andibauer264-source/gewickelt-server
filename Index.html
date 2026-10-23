@@ -1,0 +1,2672 @@
+<!DOCTYPE html>
+<html lang="de" class="dark h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Gewickelt - ABDL & FLR Lifestyle</title>
+
+    <!-- APP FAVICON & STARTBILDSCHIRM ICON -->
+    <link rel="icon" type="image/png" href="https://i.ibb.co/L8mY8p8/gewickelt-logo.png">
+    <link rel="apple-touch-icon" href="https://i.ibb.co/L8mY8p8/gewickelt-logo.png">
+
+    <!-- PLAY STORE / SOCIAL SHARING META TAGS (OPEN GRAPH) -->
+    <meta property="og:title" content="Gewickelt - ABDL & FLR Lifestyle Community">
+    <meta property="og:description" content="Sicherer Austausch, Tagebuch und Community für ABDL & FLR (18+).">
+    <meta property="og:image" content="https://i.ibb.co/L8mY8p8/gewickelt-logo.png">
+    <meta property="og:type" content="website">
+
+    <!-- MOBILE & CHROMIUM WEB APP EINSTELLUNGEN -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#0b0f1d">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        app: { bg: '#0b0f1d', card: '#161c2e', cardBorder: '#232d47', input: '#0f1424', accent: '#8b5cf6', pink: '#ec4899', textMuted: '#8f9bba' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        html.dark body { background-color: #0b0f1d; color: #e2e8f0; }
+        html:not(.dark) body { background-color: #e6ebf2; color: #0f172a; }
+        
+        html.dark .custom-card { background-color: #161c2e; border-color: #232d47; color: #e2e8f0; }
+        html:not(.dark) .custom-card { background-color: #ffffff; border-color: #cbd5e1; color: #0f172a; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); }
+
+        html.dark .custom-input { background-color: #0f1424; border-color: #232d47; color: #ffffff; }
+        html:not(.dark) .custom-input { background-color: #f1f5f9; border-color: #cbd5e1; color: #0f172a; }
+
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+
+        .notification-blob {
+            position: relative;
+        }
+        .notification-blob::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            width: 10px;
+            height: 10px;
+            background-color: #ff4757;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #ff4757;
+            animation: pulse-blob 1.5s infinite;
+        }
+        @keyframes pulse-blob {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.7); }
+            70% { transform: scale(1.1); box-shadow: 0 0 0 8px rgba(255, 71, 87, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 71, 87, 0); }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between pb-24 select-none">
+
+    <!-- TARN-MODUS / PANIC FACADE -->
+    <div id="panicFacade" class="fixed inset-0 z-50 bg-slate-900 text-slate-100 p-6 hidden flex flex-col justify-between">
+        <div class="space-y-4">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <h2 class="text-lg font-bold"><i class="fa-solid fa-cloud-sun text-amber-400 mr-2"></i> Wetter & Notizen</h2>
+                <button onclick="disablePanicMode()" class="px-3 py-1 bg-slate-800 rounded-lg text-xs font-semibold hover:bg-slate-700 transition">Beenden</button>
+            </div>
+            <div class="p-4 bg-slate-800/50 rounded-2xl space-y-2 border border-slate-700/50">
+                <p class="text-sm font-semibold">Aktuelles Wetter: Berlin, 18°C</p>
+                <p class="text-xs text-slate-400">Leicht bewölkt. Keine besonderen Vorkommnisse.</p>
+            </div>
+            <div class="space-y-2">
+                <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Einkaufszettel & Aufgaben</h3>
+                <ul class="text-xs space-y-1.5 text-slate-300">
+                    <li class="p-2 bg-slate-800/30 rounded-lg">- Milch & Eier kaufen</li>
+                    <li class="p-2 bg-slate-800/30 rounded-lg">- Pflanzen im Wohnzimmer gießen</li>
+                    <li class="p-2 bg-slate-800/30 rounded-lg">- Wöchentlichen Bericht fertigstellen</li>
+                </ul>
+            </div>
+        </div>
+        <p class="text-[10px] text-center text-slate-500">Notiz-App v1.0 • Lokal gesichert</p>
+    </div>
+
+    <!-- APP PIN SPERRE OVERLAY -->
+    <div id="appPinOverlay" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 hidden">
+        <div class="custom-card border rounded-3xl max-w-xs w-full p-6 text-center space-y-4 shadow-2xl">
+            <div class="w-12 h-12 mx-auto rounded-xl bg-violet-600/20 text-violet-500 flex items-center justify-center text-xl">
+                <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <h3 class="text-sm font-bold">App ist gesperrt</h3>
+            <p class="text-[10px] text-app-textMuted">Gib deinen 4-stelligen Sicherheits-PIN ein.</p>
+            <input type="password" id="unlockPinInput" maxlength="4" placeholder="••••" class="w-full text-center tracking-widest text-lg py-2.5 rounded-xl border custom-input outline-none focus:border-app-accent">
+            <button onclick="verifyAppPin()" class="w-full py-2.5 bg-violet-600 hover:bg-violet-500 text-white font-semibold rounded-xl text-xs transition shadow-md">Entsperren</button>
+        </div>
+    </div>
+
+    <!-- AUTHENTICATION OVERLAY -->
+    <div id="authOverlay" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 hidden">
+        <div class="custom-card border rounded-3xl max-w-sm w-full p-6 text-center shadow-2xl space-y-5">
+            <div class="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-tr from-violet-600 via-purple-600 to-pink-500 flex items-center justify-center text-white text-3xl shadow-lg shadow-purple-500/30">
+                <i class="fa-solid fa-heart"></i>
+            </div>
+            <div>
+                <h2 class="text-2xl font-extrabold">Gewickelt</h2>
+                <p class="text-[11px] text-app-textMuted mt-1 uppercase tracking-wider font-semibold">ABDL & FLR LIFESTYLE COMMUNITY (18+)</p>
+            </div>
+            <form id="loginForm" class="space-y-3 text-left" onsubmit="handleAuthLogin(event)">
+                <div>
+                    <label class="block text-[10px] font-semibold text-app-textMuted uppercase mb-1">E-Mail-Adresse</label>
+                    <input type="email" id="loginEmail" required placeholder="name@beispiel.de" class="w-full px-4 py-2.5 rounded-xl border custom-input text-xs outline-none focus:border-app-accent">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-semibold text-app-textMuted uppercase mb-1">Benutzername</label>
+                    <input type="text" id="loginUsername" required minlength="3" maxlength="24" placeholder="z. B. Keyholder_Lady" class="w-full px-4 py-2.5 rounded-xl border custom-input text-xs outline-none focus:border-app-accent">
+                </div>
+                <div>
+                    <div class="flex justify-between items-center mb-1">
+                        <label class="block text-[10px] font-semibold text-app-textMuted uppercase">Passwort</label>
+                        <button type="button" onclick="openForgotPasswordModal()" class="text-[10px] text-violet-500 hover:underline font-semibold">Passwort vergessen?</button>
+                    </div>
+                    <input type="password" id="loginPassword" required minlength="6" placeholder="Mindestens 6 Zeichen" class="w-full px-4 py-2.5 rounded-xl border custom-input text-xs outline-none focus:border-app-accent">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-semibold text-app-textMuted uppercase mb-1">Hauptrolle</label>
+                    <select id="loginRole" class="w-full px-4 py-2.5 rounded-xl border custom-input text-xs outline-none focus:border-app-accent">
+                        <option value="👑 Keyholderin / FLR Führung">👑 Keyholderin / FLR Führung</option>
+                        <option value="🔒 Devot / Unterlegen">🔒 Devot / Unterlegen</option>
+                        <option value="👶 ABDL / Pflege & Erziehung">👶 ABDL / Pflege & Erziehung</option>
+                        <option value="✨ Paar & Kombiniert">✨ Paar & Kombiniert</option>
+                    </select>
+                </div>
+                <div class="flex items-center gap-2 pt-1">
+                    <input type="checkbox" id="rememberMe" checked class="rounded custom-input text-app-accent">
+                    <label for="rememberMe" class="text-[11px] text-app-textMuted">Angemeldet bleiben (nicht automatisch ausloggen)</label>
+                </div>
+                <div class="flex items-center gap-2">
+                    <input type="checkbox" id="ageConfirm" required class="rounded custom-input text-app-accent">
+                    <label for="ageConfirm" class="text-[11px] text-app-textMuted">Ich bin mindestens 18 Jahre alt.</label>
+                </div>
+                <button type="submit" class="w-full py-3 bg-gradient-to-r from-violet-600 to-pink-500 text-white font-bold rounded-xl text-xs shadow-lg hover:opacity-95 transition">
+                    Einloggen & Starten <i class="fa-solid fa-arrow-right ml-1"></i>
+                </button>
+                <div id="clearSavedCredsContainer" class="hidden text-center pt-1">
+                    <button type="button" onclick="clearSavedCredentials()" class="text-[10px] text-rose-500 hover:underline">Gespeicherte Anmeldedaten löschen</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- PASSWORT VERGESSEN MODAL -->
+    <div id="forgotPasswordModal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="custom-card border rounded-3xl max-w-sm w-full p-6 space-y-4 shadow-2xl text-left">
+            <div class="flex justify-between items-center border-b border-app-textMuted/20 pb-3">
+                <h3 class="text-sm font-bold"><i class="fa-solid fa-key text-violet-500 mr-1.5"></i> Passwort zurücksetzen</h3>
+                <button onclick="closeForgotPasswordModal()" class="text-app-textMuted hover:text-app-accent"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <div id="forgotStep1" class="space-y-3">
+                <p class="text-xs text-app-textMuted">Gib deine registrierte E-Mail-Adresse ein. Wir senden dir einen Bestätigungscode zum Zurücksetzen deines Passworts.</p>
+                <div>
+                    <label class="block text-[10px] font-semibold text-app-textMuted uppercase mb-1">E-Mail-Adresse</label>
+                    <input type="email" id="forgotEmailInput" placeholder="name@beispiel.de" class="w-full px-4 py-2.5 rounded-xl border custom-input text-xs outline-none focus:border-app-accent">
+                </div>
+                <button type="button" onclick="sendResetCode()" class="w-full py-2.5 bg-violet-600 hover:bg-violet-500 text-white font-semibold rounded-xl text-xs transition shadow-md">
+                    Bestätigungscode anfordern
+                </button>
+            </div>
+
+            <div id="forgotStep2" class="space-y-3 hidden">
+                <div class="p-3 bg-violet-500/10 border border-violet-500/30 rounded-xl space-y-1">
+                    <p class="text-[11px] font-bold text-violet-500">Code erfolgreich gesendet!</p>
+                    <p class="text-[10px] text-app-textMuted">Für diesen Test-Prozess lautet dein Demo-Bestätigungscode: <strong class="text-pink-500">123456</strong></p>
+                </div>
+                <div>
+                    <label class="block text-[10px] font-semibold text-app-textMuted uppercase mb-1">Bestätigungscode</label>
+                    <input type="text" id="forgotCodeInput" placeholder="123456" class="w-full px-4 py-2.5 rounded-xl border custom-input text-xs outline-none focus:border-app-accent text-center font-bold tracking-widest">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-semibold text-app-textMuted uppercase mb-1">Neues Passwort</label>
+                    <input type="password" id="newPasswordInput" placeholder="Mindestens 6 Zeichen" class="w-full px-4 py-2.5 rounded-xl border custom-input text-xs outline-none focus:border-app-accent">
+                </div>
+                <button type="button" onclick="confirmNewPassword()" class="w-full py-2.5 bg-gradient-to-r from-violet-600 to-pink-500 text-white font-bold rounded-xl text-xs transition shadow-md">
+                    Passwort speichern & Einloggen
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- BLOCKIERTE NUTZER MODAL -->
+    <div id="blockedModal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="custom-card border rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl">
+            <div class="flex justify-between items-center border-b border-app-textMuted/20 pb-3">
+                <h3 class="text-sm font-bold text-rose-500"><i class="fa-solid fa-ban mr-1.5"></i> Blockierte Nutzer verwalten</h3>
+                <button onclick="closeBlockedModal()" class="text-app-textMuted hover:text-app-accent"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <p class="text-xs text-app-textMuted">Hier siehst du alle von dir blockierten Nutzer. Du kannst die Sperre jederzeit wieder aufheben.</p>
+            <div id="blockedModalList" class="space-y-2 max-h-60 overflow-y-auto">
+                <p class="text-[10px] text-app-textMuted text-center py-4">Du hast aktuell keine Nutzer blockiert.</p>
+            </div>
+            <button onclick="closeBlockedModal()" class="w-full py-2.5 bg-violet-600 hover:bg-violet-500 text-white font-semibold rounded-xl text-xs transition">
+                Schließen
+            </button>
+        </div>
+    </div>
+
+    <!-- SUCH-MODAL / ERGEBNISSE -->
+    <div id="searchModal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="custom-card border rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl">
+            <div class="flex justify-between items-center border-b border-app-textMuted/20 pb-3">
+                <h3 class="text-sm font-bold"><i class="fa-solid fa-search text-violet-500 mr-1.5"></i> Suche in Community & Beiträgen</h3>
+                <button onclick="closeSearchModal()" class="text-app-textMuted hover:text-app-accent"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="space-y-2">
+                <input type="text" id="globalSearchInput" oninput="executeGlobalSearch()" placeholder="Nach Begriffen, Hashtags oder Usern suchen..." class="w-full custom-input border rounded-xl px-3 py-2.5 text-xs outline-none focus:border-app-accent">
+            </div>
+            <div id="searchResultsContainer" class="space-y-2.5 max-h-72 overflow-y-auto pr-1">
+                <p class="text-[10px] text-app-textMuted text-center py-4">Gib einen Suchbegriff ein, um Beiträge und User zu finden.</p>
+            </div>
+            <button onclick="closeSearchModal()" class="w-full py-2.5 bg-violet-600 hover:bg-violet-500 text-white font-semibold rounded-xl text-xs transition">
+                Schließen
+            </button>
+        </div>
+    </div>
+
+    <!-- EVENT-KALENDER MODAL -->
+    <div id="eventCalendarModal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="custom-card border rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl">
+            <div class="flex justify-between items-center border-b border-app-textMuted/20 pb-3">
+                <h3 class="text-sm font-bold text-violet-500"><i class="fa-solid fa-calendar-days mr-1.5"></i> Community Event-Kalender</h3>
+                <button onclick="closeEventCalendarModal()" class="text-app-textMuted hover:text-app-accent"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="space-y-2.5 max-h-60 overflow-y-auto" id="eventListContainer">
+                <div class="custom-input border rounded-xl p-3 space-y-1">
+                    <p class="text-xs font-bold text-violet-400">Online FLR-Austausch & Stammtisch</p>
+                    <p class="text-[10px] text-app-textMuted">Datum: 28.10.2026, 20:00 Uhr • Discord / Live-Chat</p>
+                </div>
+                <div class="custom-input border rounded-xl p-3 space-y-1">
+                    <p class="text-xs font-bold text-pink-400">ABDL Kaffeeklatsch (Virtuell)</p>
+                    <p class="text-[10px] text-app-textMuted">Datum: 05.11.2026, 18:30 Uhr • Online Lounge</p>
+                </div>
+            </div>
+            <button onclick="closeEventCalendarModal()" class="w-full py-2.5 bg-violet-600 hover:bg-violet-500 text-white rounded-xl text-xs font-semibold transition">Schließen</button>
+        </div>
+    </div>
+
+    <!-- ANONYMER BEICHTSTUHL MODAL -->
+    <div id="confessionModal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="custom-card border rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl">
+            <div class="flex justify-between items-center border-b border-app-textMuted/20 pb-3">
+                <h3 class="text-sm font-bold text-pink-500"><i class="fa-solid fa-mask mr-1.5"></i> Anonymer Beichtstuhl</h3>
+                <button onclick="closeConfessionModal()" class="text-app-textMuted hover:text-app-accent"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <textarea id="confessionInput" rows="3" placeholder="Teile deine anonyme Geschichte, Gedanken oder Beichte..." class="w-full custom-input border rounded-xl p-3 text-xs outline-none resize-none focus:border-app-accent"></textarea>
+            <button onclick="submitConfession()" class="w-full py-2.5 bg-gradient-to-r from-pink-600 to-violet-600 text-white rounded-xl text-xs font-bold shadow-md hover:opacity-95 transition">Anonym absenden</button>
+            <div id="confessionListContainer" class="space-y-2 max-h-40 overflow-y-auto pt-2"></div>
+            <button onclick="closeConfessionModal()" class="w-full py-2.5 bg-violet-600 hover:bg-violet-500 text-white rounded-xl text-xs font-semibold transition">Schließen</button>
+        </div>
+    </div>
+
+    <!-- MAIN APP STRUCTURE -->
+    <div id="mainApp" class="flex-1 max-w-lg mx-auto w-full flex flex-col">
+        <header class="sticky top-0 z-40 backdrop-blur-md px-4 py-3 border-b flex items-center justify-between transition custom-card">
+            <div class="flex items-center gap-3">
+                <button onclick="toggleSideMenu()" class="text-lg p-1"><i class="fa-solid fa-bars"></i></button>
+                <div class="flex items-center gap-2.5">
+                    <div class="w-9 h-9 rounded-xl overflow-hidden shadow-md border border-violet-500/30 flex items-center justify-center bg-white">
+                        <img id="appHeaderLogo" src="https://i.ibb.co/L8mY8p8/gewickelt-logo.png" class="w-full h-full object-cover" alt="Logo">
+                    </div>
+                    <div>
+                        <h1 class="text-base font-bold text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-pink-400 leading-tight">Gewickelt</h1>
+                        <p class="text-[9px] font-semibold tracking-wider text-app-textMuted uppercase" id="headerUserRole">ONLINE APP</p>
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <button onclick="openSearchModal()" class="w-8 h-8 rounded-xl custom-input border flex items-center justify-center text-violet-500 hover:border-violet-500 transition" title="Suche öffnen">
+                    <i class="fa-solid fa-search text-xs"></i>
+                </button>
+                <span class="text-[10px] text-emerald-500 font-semibold"><i class="fa-solid fa-signal mr-1"></i>Server</span>
+            </div>
+        </header>
+
+        <main class="flex-1 p-4 space-y-4">
+            <!-- FORUM / STARTSEITE -->
+            <div id="view-forum" class="space-y-4">
+                <div class="custom-card border rounded-3xl p-5 space-y-4 shadow-xl bg-gradient-to-br from-violet-900/10 via-transparent to-pink-900/10 border-violet-500/30">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <span class="text-[10px] text-violet-500 font-bold uppercase tracking-wider"><i class="fa-solid fa-sparkles mr-1"></i> Community Startseite</span>
+                            <h2 class="text-base font-extrabold mt-0.5" id="welcomeUserTitle">Herzlich willkommen!</h2>
+                        </div>
+                        <div class="w-10 h-10 rounded-2xl bg-violet-600/20 text-violet-500 flex items-center justify-center text-lg">
+                            <i class="fa-solid fa-heart"></i>
+                        </div>
+                    </div>
+
+                    <p class="text-xs text-app-textMuted leading-relaxed">
+                        Schön, dass du da bist. Genieße den sicheren Austausch, verwalte deine FLR-Protokolle oder stimme dich mit deiner Community ab.
+                    </p>
+
+                    <div class="grid grid-cols-2 gap-2 pt-1">
+                        <div class="p-2.5 rounded-xl custom-input border flex items-center gap-2.5">
+                            <i class="fa-solid fa-crown text-purple-500 text-base"></i>
+                            <div>
+                                <p class="text-[9px] text-app-textMuted">FLR-Status</p>
+                                <p class="text-xs font-bold">Aktiv</p>
+                            </div>
+                        </div>
+                        <div class="p-2.5 rounded-xl custom-input border flex items-center gap-2.5">
+                            <i class="fa-solid fa-fire text-amber-500 text-base"></i>
+                            <div>
+                                <p class="text-[9px] text-app-textMuted">Streak-Check-in</p>
+                                <p class="text-xs font-bold" id="streakDisplay">0 Tage</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="doDailyCheckin()" class="w-full py-2 bg-gradient-to-r from-amber-500 to-pink-500 hover:opacity-95 text-white font-bold rounded-xl text-xs shadow-md transition">
+                        <i class="fa-solid fa-check-circle mr-1.5"></i> Täglichen Check-in bestätigen
+                    </button>
+
+                    <div class="grid grid-cols-4 gap-1.5 pt-1 border-t border-app-textMuted/20">
+                        <button onclick="switchTab('flr'); switchFlrTab('tools');" class="p-2 custom-input hover:border-violet-500 rounded-xl text-center transition">
+                            <i class="fa-solid fa-dice text-violet-500 text-sm mb-1"></i>
+                            <p class="text-[9px] font-semibold">Würfel</p>
+                        </button>
+                        <button onclick="switchTab('profile')" class="p-2 custom-input hover:border-violet-500 rounded-xl text-center transition">
+                            <i class="fa-solid fa-book text-purple-500 text-sm mb-1"></i>
+                            <p class="text-[9px] font-semibold">Tagebuch</p>
+                        </button>
+                        <button onclick="switchTab('flr'); switchFlrTab('hub');" class="p-2 custom-input hover:border-violet-500 rounded-xl text-center transition">
+                            <i class="fa-solid fa-key text-amber-500 text-sm mb-1"></i>
+                            <p class="text-[9px] font-semibold">Lounge</p>
+                        </button>
+                        <button onclick="switchTab('chat')" class="p-2 custom-input hover:border-violet-500 rounded-xl text-center transition">
+                            <i class="fa-solid fa-globe text-pink-500 text-sm mb-1"></i>
+                            <p class="text-[9px] font-semibold">Live-Chat</p>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- EVENT KALENDER & BEICHTSTUHL SCHNELLSTART -->
+                <div class="grid grid-cols-2 gap-2">
+                    <div onclick="openEventCalendarModal()" class="custom-card border rounded-2xl p-3 cursor-pointer hover:border-violet-500 transition space-y-1 shadow-md">
+                        <div class="flex items-center gap-2 text-violet-500">
+                            <i class="fa-solid fa-calendar-days text-sm"></i>
+                            <span class="text-xs font-bold">Event-Kalender</span>
+                        </div>
+                        <p class="text-[10px] text-app-textMuted">Stammtische & Online-Treffen</p>
+                    </div>
+                    <div onclick="openConfessionModal()" class="custom-card border rounded-2xl p-3 cursor-pointer hover:border-pink-500 transition space-y-1 shadow-md">
+                        <div class="flex items-center gap-2 text-pink-500">
+                            <i class="fa-solid fa-mask text-sm"></i>
+                            <span class="text-xs font-bold">Beichtstuhl</span>
+                        </div>
+                        <p class="text-[10px] text-app-textMuted">Anonyme Geständnisse</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2 overflow-x-auto hide-scrollbar py-1">
+                    <button onclick="filterCategory('Alle')" id="cat-Alle" class="px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap bg-app-accent text-white">Alle</button>
+                    <button onclick="filterCategory('FLR')" id="cat-FLR" class="px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap custom-card border">👑 FLR</button>
+                    <button onclick="filterCategory('Windeldisziplinierung')" id="cat-Windeldisziplinierung" class="px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap custom-card border">👶 Windeldisziplinierung</button>
+                </div>
+
+                <div class="custom-card border rounded-2xl p-4 space-y-3 shadow-lg">
+                    <textarea id="newPostContent" rows="2" placeholder="Was gibt es Neues in deinem Lifestyle?" class="w-full custom-input border rounded-xl p-3 text-xs placeholder-app-textMuted outline-none resize-none focus:border-app-accent"></textarea>
+                    
+                    <div id="postImagePreviewContainer" class="hidden relative w-24 h-24 rounded-xl overflow-hidden border custom-input">
+                        <img id="postImagePreview" src="" class="w-full h-full object-cover">
+                        <button onclick="removePostImage()" class="absolute top-1 right-1 w-5 h-5 bg-black/70 hover:bg-rose-600 text-white rounded-full flex items-center justify-center text-[9px] transition"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+
+                    <div class="flex items-center justify-between pt-1 border-t border-app-textMuted/20">
+                        <div class="flex items-center gap-2">
+                            <select id="newPostCategory" class="custom-input border rounded-xl px-2.5 py-1.5 text-xs outline-none focus:border-app-accent">
+                                <option value="FLR">👑 FLR</option>
+                                <option value="Windeldisziplinierung">👶 Windeldisziplinierung</option>
+                                <option value="Lifestyle">✨ Lifestyle</option>
+                            </select>
+                            <label class="px-3 py-1.5 custom-input border hover:border-app-accent rounded-xl text-xs font-semibold cursor-pointer transition flex items-center gap-1.5">
+                                <i class="fa-solid fa-image text-pink-500"></i> Bild
+                                <input type="file" accept="image/*" class="hidden" onchange="handlePostImageUpload(event)">
+                            </label>
+                        </div>
+                        <button onclick="createPost()" class="px-4 py-2 bg-gradient-to-r from-violet-600 to-pink-500 hover:opacity-95 text-white font-semibold rounded-xl text-xs shadow-md transition">
+                            Veröffentlichen
+                        </button>
+                    </div>
+                </div>
+
+                <div id="postsFeed" class="space-y-3">
+                    <p class="text-center text-xs text-app-textMuted py-4">Lade Beiträge vom Server...</p>
+                </div>
+            </div>
+
+            <!-- CHAT & DIREKTNACHRICHTEN -->
+            <div id="view-chat" class="hidden space-y-4">
+                <div class="flex custom-card border rounded-2xl p-1 shadow-md">
+                    <button onclick="switchChatMode('public')" id="chatModeBtn-public" class="flex-1 py-2 rounded-xl text-xs font-semibold bg-app-accent text-white transition">
+                        <i class="fa-solid fa-globe mr-1"></i> Öffentlicher Chat
+                    </button>
+                    <button onclick="switchChatMode('dm')" id="chatModeBtn-dm" class="flex-1 py-2 rounded-xl text-xs font-semibold text-app-textMuted hover:text-app-accent transition">
+                        <i class="fa-solid fa-paper-plane mr-1"></i> Privatnachrichten
+                    </button>
+                </div>
+
+                <div id="publicChatSection" class="custom-card border rounded-2xl p-4 space-y-3 shadow-lg">
+                    <div class="flex justify-between items-center border-b border-app-textMuted/20 pb-2">
+                        <h3 class="text-xs font-bold"><i class="fa-solid fa-comments text-violet-500 mr-1.5"></i> Öffentlicher Community-Chatroom</h3>
+                        <span class="text-[9px] px-2 py-0.5 bg-emerald-500/20 text-emerald-500 rounded-full font-semibold">Live</span>
+                    </div>
+
+                    <div id="publicChatList" class="space-y-2.5 h-64 overflow-y-auto pr-1">
+                        <p class="text-[10px] text-app-textMuted text-center py-4">Lade öffentliche Nachrichten...</p>
+                    </div>
+
+                    <div class="pt-2 border-t border-app-textMuted/20 flex gap-2">
+                        <input type="text" id="publicChatInput" onkeydown="if(event.key === 'Enter') sendPublicMessage()" placeholder="Öffentliche Nachricht schreiben..." class="flex-1 custom-input border rounded-xl px-3 py-2 text-xs placeholder-app-textMuted outline-none focus:border-app-accent">
+                        <button onclick="sendPublicMessage()" class="px-4 py-2 bg-violet-600 hover:bg-violet-500 text-white font-semibold rounded-xl text-xs transition">
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="dmChatSection" class="hidden space-y-4">
+                    <div class="custom-card border rounded-2xl p-4 space-y-3 shadow-lg">
+                        <h3 class="text-xs font-bold"><i class="fa-solid fa-user-lock text-purple-500 mr-1"></i> Direkte Nachricht senden</h3>
+                        <div>
+                            <label class="block text-[10px] text-app-textMuted uppercase mb-1">Empfänger (Benutzername)</label>
+                            <input type="text" id="dmRecipient" placeholder="z. B. Partner_User" oninput="loadDirectMessages()" class="w-full custom-input border rounded-xl p-2.5 text-xs outline-none focus:border-app-accent">
+                        </div>
+                        <div class="space-y-2">
+                            <textarea id="directMessageInput" rows="2" placeholder="Deine Nachricht..." class="w-full custom-input border rounded-xl p-3 text-xs outline-none resize-none focus:border-app-accent"></textarea>
+                            <button onclick="sendDirectMessage(event)" class="w-full py-2 bg-violet-600 hover:bg-violet-500 text-white font-semibold rounded-xl text-xs transition">
+                                Nachricht absenden
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="custom-card border rounded-2xl p-4 space-y-3 shadow-lg">
+                        <h4 class="text-xs font-bold border-b border-app-textMuted/20 pb-2">Verlauf</h4>
+                        <div id="directMessageList" class="space-y-2 max-h-60 overflow-y-auto">
+                            <p class="text-[10px] text-app-textMuted text-center py-2">Gib oben einen Empfänger ein, um den Chat zu laden.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GRUPPEN & ERWEITERTE FEATURES -->
+            <div id="view-groups" class="hidden space-y-4">
+                <div id="groupsMainView" class="custom-card border rounded-2xl p-4 space-y-3 shadow-lg">
+                    <div class="flex justify-between items-center border-b border-app-textMuted/20 pb-2">
+                        <h3 class="text-xs font-bold"><i class="fa-solid fa-users text-violet-500 mr-1.5"></i> Community Gruppen</h3>
+                        <button onclick="openCreateGroupModal()" class="px-2.5 py-1 bg-violet-600 hover:bg-violet-500 text-white rounded-lg text-[10px] font-semibold transition">
+                            <i class="fa-solid fa-plus mr-1"></i> Gruppe erstellen
+                        </button>
+                    </div>
+                    <div id="groupsContainer" class="space-y-2.5"></div>
+                </div>
+
+                <div id="groupDetailView" class="hidden space-y-3">
+                    <div class="flex justify-between items-center">
+                        <button onclick="closeGroupDetail()" class="px-3 py-1.5 custom-card border rounded-xl text-xs font-semibold hover:border-violet-500 transition">
+                            <i class="fa-solid fa-arrow-left mr-1"></i> Zurück zur Übersicht
+                        </button>
+                        <button id="groupJoinBtn" onclick="toggleJoinGroup()" class="px-3 py-1.5 bg-violet-600 hover:bg-violet-500 text-white rounded-xl text-xs font-semibold transition">
+                            Beitreten
+                        </button>
+                    </div>
+
+                    <div class="custom-card border rounded-2xl p-4 space-y-4 shadow-lg">
+                        <div class="border-b border-app-textMuted/20 pb-2">
+                            <div class="flex justify-between items-center">
+                                <h3 id="activeGroupTitle" class="text-sm font-bold">Gruppenname</h3>
+                                <span id="activeGroupBadge" class="text-[9px] px-2 py-0.5 bg-violet-500/20 text-violet-500 rounded-full font-semibold">Öffentlich</span>
+                            </div>
+                            <p id="activeGroupDesc" class="text-[10px] text-app-textMuted mt-1">Beschreibung</p>
+                            <p id="activeGroupMembersCount" class="text-[10px] text-violet-500 font-semibold mt-1"><i class="fa-solid fa-users mr-1"></i> 0 Mitglieder</p>
+                        </div>
+
+                        <div class="p-3 rounded-xl bg-violet-500/10 border border-violet-500/30 space-y-1">
+                            <div class="flex justify-between items-center">
+                                <span class="text-[10px] font-bold text-violet-500"><i class="fa-solid fa-thumbtack mr-1"></i> Angepinnte Regeln & Ankündigungen</span>
+                                <button onclick="editGroupRules()" class="text-[9px] text-violet-500 hover:underline">Bearbeiten</button>
+                            </div>
+                            <p id="activeGroupPinnedRules" class="text-xs">Keine Regeln hinterlegt. Klicke auf Bearbeiten.</p>
+                        </div>
+
+                        <div class="flex custom-input border rounded-xl p-1">
+                            <button onclick="switchGroupTab('feed')" id="groupTabBtn-feed" class="flex-1 py-1.5 rounded-lg text-xs font-semibold bg-violet-600 text-white transition">Feed</button>
+                            <button onclick="switchGroupTab('chat')" id="groupTabBtn-chat" class="flex-1 py-1.5 rounded-lg text-xs font-semibold text-app-textMuted hover:text-violet-500 transition">Live-Chat</button>
+                            <button onclick="switchGroupTab('polls')" id="groupTabBtn-polls" class="flex-1 py-1.5 rounded-lg text-xs font-semibold text-app-textMuted hover:text-violet-500 transition">Umfragen</button>
+                            <button onclick="switchGroupTab('resources')" id="groupTabBtn-resources" class="flex-1 py-1.5 rounded-lg text-xs font-semibold text-app-textMuted hover:text-violet-500 transition">Ressourcen</button>
+                        </div>
+
+                        <div id="groupSection-feed" class="space-y-3">
+                            <div class="space-y-2">
+                                <textarea id="groupPostInput" rows="2" placeholder="Schreibe einen Beitrag in diese Gruppe..." class="w-full custom-input border rounded-xl p-3 text-xs placeholder-app-textMuted outline-none resize-none focus:border-app-accent"></textarea>
+                                <button onclick="createGroupPost()" class="w-full py-2 bg-violet-600 hover:bg-violet-500 text-white font-semibold rounded-xl text-xs transition">
+                                    <i class="fa-solid fa-paper-plane mr-1"></i> Beitrag posten
+                                </button>
+                            </div>
+                            <div id="groupPostsContainer" class="space-y-2 pt-2"></div>
+                        </div>
+
+                        <div id="groupSection-chat" class="hidden space-y-3">
+                            <div id="groupChatList" class="space-y-2.5 h-48 overflow-y-auto pr-1"></div>
+                            <div class="flex gap-2">
+                                <input type="text" id="groupChatInput" onkeydown="if(event.key === 'Enter') sendGroupChatMessage()" placeholder="Gruppen-Nachricht..." class="flex-1 custom-input border rounded-xl px-3 py-2 text-xs outline-none focus:border-app-accent">
+                                <button onclick="sendGroupChatMessage()" class="px-3 py-2 bg-violet-600 hover:bg-violet-500 text-white rounded-xl text-xs transition"><i class="fa-solid fa-paper-plane"></i></button>
+                            </div>
+                        </div>
+
+                        <div id="groupSection-polls" class="hidden space-y-3">
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs font-bold">Umfragen</span>
+                                <button onclick="createGroupPoll()" class="px-2.5 py-1 bg-violet-600 hover:bg-violet-500 text-white rounded-lg text-[10px] transition">Neue Umfrage</button>
+                            </div>
+                            <div id="groupPollsContainer" class="space-y-3"></div>
+                        </div>
+
+                        <div id="groupSection-resources" class="hidden space-y-3">
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs font-bold">Geteilte Ressourcen & Dokumente</span>
+                                <button onclick="addGroupResource()" class="px-2.5 py-1 bg-violet-600 hover:bg-violet-500 text-white rounded-lg text-[10px] transition">Ressource hinzufügen</button>
+                            </div>
+                            <div id="groupResourcesContainer" class="space-y-2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FLR & LIFESTYLE TOOLS (OHNE KEUSCHHEITSTIMER) -->
+            <div id="view-flr" class="hidden space-y-4">
+                <div class="flex custom-card border rounded-2xl p-1 shadow-md">
+                    <button onclick="switchFlrTab('tools')" id="flrTabBtn-tools" class="flex-1 py-2 rounded-xl text-xs font-semibold bg-app-accent text-white transition">
+                        <i class="fa-solid fa-dharmachakra mr-1"></i> FLR Tools & Glücksrad
+                    </button>
+                    <button onclick="switchFlrTab('hub')" id="flrTabBtn-hub" class="flex-1 py-2 rounded-xl text-xs font-semibold text-app-textMuted hover:text-amber-500 transition">
+                        <i class="fa-solid fa-crown text-amber-500 mr-1"></i> Leadership Lounge
+                    </button>
+                </div>
+
+                <div id="flrSection-tools" class="space-y-4">
+                    <div class="custom-card border rounded-2xl p-4 space-y-4 shadow-lg">
+                        <div class="flex justify-between items-center border-b border-app-textMuted/20 pb-2">
+                            <h3 class="text-xs font-bold"><i class="fa-solid fa-crown text-purple-500 mr-1.5"></i> FLR Führung & Vereinbarungen</h3>
+                            <span class="text-[9px] px-2 py-0.5 bg-purple-500/20 text-purple-500 rounded-full font-semibold">Aktiv</span>
+                        </div>
+
+                        <!-- GLÜCKSRAD / WHEEL OF FORTUNE -->
+                        <div class="p-3.5 rounded-2xl custom-input border text-center space-y-2">
+                            <h4 class="text-xs font-bold text-violet-500 flex items-center justify-center gap-1.5">
+                                <i class="fa-solid fa-dharmachakra"></i> FLR Glücksrad der Aufgaben
+                            </h4>
+                            <div id="wheelResultBox" class="p-3 bg-violet-600/10 border border-violet-500/30 rounded-xl text-xs font-semibold min-h-[44px] flex items-center justify-center text-slate-200">
+                                Klicke zum Drehen für eine zufällige Aufgabe!
+                            </div>
+                            <button onclick="spinWheelOfFortune()" class="px-4 py-2 bg-gradient-to-r from-violet-600 to-pink-500 hover:opacity-95 text-white rounded-xl text-xs font-bold shadow-md transition">
+                                Glücksrad drehen 🎡
+                            </button>
+                        </div>
+
+                        <!-- SESSION VERTRAGS-GENERATOR -->
+                        <div class="p-3.5 rounded-2xl custom-input border space-y-2">
+                            <h4 class="text-xs font-bold text-amber-500 flex items-center gap-1.5">
+                                <i class="fa-solid fa-file-contract"></i> Digitaler Session-Vertrag
+                            </h4>
+                            <input type="text" id="contractRuleInput" placeholder="Spezifische Vereinbarung / Regel eingeben..." class="w-full custom-card border rounded-xl px-3 py-2 text-xs outline-none focus:border-amber-500">
+                            <button onclick="generateDigitalContract()" class="w-full py-2 bg-amber-600 hover:bg-amber-500 text-white rounded-xl text-xs font-semibold transition">
+                                Vertrag generieren & speichern
+                            </button>
+                        </div>
+
+                        <div class="space-y-2 pt-1 border-t border-app-textMuted/20">
+                            <label class="block text-[10px] font-semibold text-app-textMuted uppercase">Regeln & Vereinbarungen für diese Session</label>
+                            <textarea id="flrRulesInput" rows="3" oninput="saveFlrSettings()" placeholder="z. B. Feste Aufgabenzeiten für den Haushalt..." class="w-full custom-input border rounded-xl p-3 text-xs placeholder-app-textMuted outline-none resize-none focus:border-app-accent"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="custom-card border rounded-2xl p-4 space-y-3 shadow-lg">
+                        <div class="flex justify-between items-center border-b border-app-textMuted/20 pb-2">
+                            <h3 class="text-xs font-bold"><i class="fa-solid fa-dice text-violet-500 mr-1.5"></i> FLR Aufgaben & Strafen-Würfel</h3>
+                            <button onclick="rollFlrDice()" class="px-2.5 py-1 bg-violet-600 hover:bg-violet-500 text-white rounded-lg text-[10px] font-semibold transition">
+                                <i class="fa-solid fa-dice mr-1"></i> Würfeln
+                            </button>
+                        </div>
+
+                        <div id="flrTaskBox" class="custom-input border rounded-xl p-3.5 space-y-2">
+                            <p class="text-[10px] text-violet-500 font-bold uppercase tracking-wider">Aktuelle Herausforderung / Strafe</p>
+                            <p id="currentFlrTaskText" class="text-xs">Klicke auf „Würfel“, um eine zufällige FLR-Aufgabe oder Disziplinarmaßnahme zu generieren.</p>
+                        </div>
+
+                        <div class="pt-2 border-t border-app-textMuted/20 space-y-2">
+                            <div class="flex justify-between items-center">
+                                <span class="text-[10px] font-semibold text-app-textMuted uppercase">Foto-Beweis einreichen</span>
+                                <span id="proofStatus" class="text-[9px] text-app-textMuted">Noch kein Bild hochgeladen</span>
+                            </div>
+                            <div id="taskProofPreviewContainer" class="hidden relative w-20 h-20 rounded-xl overflow-hidden border custom-input">
+                                <img id="taskProofPreview" src="" class="w-full h-full object-cover">
+                                <button onclick="removeTaskProof()" class="absolute top-1 right-1 w-4 h-4 bg-black/70 text-white rounded-full flex items-center justify-center text-[8px]"><i class="fa-solid fa-xmark"></i></button>
+                            </div>
+                            <label class="block w-full py-2 custom-input border border-dashed hover:border-app-accent rounded-xl text-center text-xs font-semibold cursor-pointer transition">
+                                <i class="fa-solid fa-camera text-pink-500 mr-1.5"></i> Foto für Keyholderin hochladen
+                                <input type="file" accept="image/*" class="hidden" onchange="uploadTaskProof(event)">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="flrSection-hub" class="hidden space-y-4">
+                    <div id="leaderLockScreen" class="custom-card border rounded-3xl p-6 text-center space-y-4 shadow-2xl border-amber-500/30">
+                        <div class="w-14 h-14 mx-auto rounded-2xl bg-amber-500/20 text-amber-500 flex items-center justify-center text-2xl">
+                            <i class="fa-solid fa-crown"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-bold">Keyholder & Leader Exklusiv-Bereich</h3>
+                            <p class="text-[11px] text-app-textMuted mt-1">Exklusiver Bereich für verifizierte Keyholder.</p>
+                        </div>
+                        <div class="p-3 bg-amber-500/10 border border-amber-500/30 rounded-2xl text-xs text-amber-200 leading-relaxed">
+                            <i class="fa-solid fa-circle-info mr-1"></i> <strong>Passwort Anfrage nur über Administrator</strong><br>
+                            Der Zugang ist strengstens verifiziert. Bitte wende dich für das Zugangspasswort direkt an den Administrator oder Support.
+                        </div>
+                        <div class="space-y-3 max-w-xs mx-auto pt-2">
+                            <input type="password" id="leaderHubPassInput" placeholder="Passwort eingeben" class="w-full px-4 py-2.5 rounded-xl border custom-input text-xs outline-none text-center">
+                            <button onclick="unlockLeaderHub()" class="w-full py-3 bg-gradient-to-r from-amber-600 to-violet-600 text-white font-bold rounded-xl text-xs shadow-lg hover:opacity-95 transition">
+                                Bereich entsperren <i class="fa-solid fa-unlock ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="leaderHubContent" class="hidden space-y-4">
+                        <div class="flex justify-between items-center bg-amber-500/10 border border-amber-500/30 p-3 rounded-2xl">
+                            <span class="text-xs font-bold text-amber-500 flex items-center gap-1.5"><i class="fa-solid fa-shield-halved"></i> Führende Lounge (Verifiziert)</span>
+                            <button onclick="lockLeaderHub()" class="px-2.5 py-1 custom-input hover:bg-rose-500/20 text-rose-500 rounded-lg text-[10px] font-semibold transition">Sperren</button>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-2">
+                            <button onclick="openLeaderFolder('protokolle')" id="folderBtn-protokolle" class="p-3 custom-card border border-amber-500/40 rounded-2xl text-center space-y-1 transition bg-amber-500/10">
+                                <i class="fa-solid fa-clipboard-list text-amber-500 text-lg"></i>
+                                <p class="text-[10px] font-bold">Anträge & Berichte</p>
+                            </button>
+                            <button onclick="openLeaderFolder('regeln')" id="folderBtn-regeln" class="p-3 custom-card border rounded-2xl text-center space-y-1 hover:border-amber-500 transition">
+                                <i class="fa-solid fa-folder text-amber-500 text-lg"></i>
+                                <p class="text-[10px] font-bold">Regeln & Verträge</p>
+                            </button>
+                            <button onclick="openLeaderFolder('austausch')" id="folderBtn-austausch" class="p-3 custom-card border rounded-2xl text-center space-y-1 hover:border-amber-500 transition">
+                                <i class="fa-solid fa-folder text-amber-500 text-lg"></i>
+                                <p class="text-[10px] font-bold">Leadership Chat</p>
+                            </button>
+                        </div>
+
+                        <div class="custom-card border rounded-2xl p-4 space-y-3 shadow-lg border-amber-500/30">
+                            <div class="flex justify-between items-center border-b border-app-textMuted/20 pb-2">
+                                <h4 id="activeFolderTitle" class="text-xs font-bold text-amber-500"><i class="fa-solid fa-folder mr-1.5"></i> Ordner: Anträge & Berichte</h4>
+                                <span id="folderItemCount" class="text-[9px] px-2 py-0.5 bg-amber-500/20 text-amber-500 rounded-full font-semibold">0 Anträge</span>
+                            </div>
+
+                            <div id="folderPostsContainer" class="space-y-2 pt-2 max-h-60 overflow-y-auto"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- PROFIL -->
+            <div id="view-profile" class="hidden space-y-4">
+                <div class="custom-card border rounded-2xl overflow-hidden shadow-lg">
+                    <div class="relative h-36 bg-gradient-to-r from-violet-900 to-pink-900" id="profileCoverContainer">
+                        <img id="profileCoverImg" src="" class="w-full h-full object-cover hidden">
+                        <input type="file" id="coverFileInput" accept="image/*" class="hidden" onchange="uploadCoverImage(event)">
+                        <button type="button" onclick="document.getElementById('coverFileInput').click()" class="absolute bottom-2 right-2 px-2.5 py-1 bg-black/60 backdrop-blur-md rounded-lg text-[10px] font-semibold text-white cursor-pointer hover:bg-black/80 transition z-10">
+                            <i class="fa-solid fa-camera mr-1"></i> Titelbild ändern
+                        </button>
+                    </div>
+
+                    <div class="px-4 pb-4 pt-0 relative">
+                        <div class="flex justify-between items-end -mt-10 mb-3">
+                            <div class="relative">
+                                <img id="profileAvatarImg" src="https://placehold.co/100x100/161c2e/ec4899?text=Avatar" class="w-20 h-20 rounded-2xl border-4 custom-card object-cover shadow-md custom-input">
+                                <label class="absolute -bottom-1 -right-1 w-7 h-7 bg-violet-600 rounded-full flex items-center justify-center text-white text-[10px] cursor-pointer shadow hover:bg-violet-500 transition">
+                                    <i class="fa-solid fa-camera"></i>
+                                    <input type="file" accept="image/*" class="hidden" onchange="uploadAvatarImage(event)">
+                                </label>
+                            </div>
+                            <span id="profileDisplayRole" class="px-2.5 py-1 bg-purple-500/10 text-purple-500 rounded-lg text-[10px] font-semibold">👑 Keyholder</span>
+                        </div>
+                        <h3 id="profileDisplayName" class="text-sm font-bold">Keyholder_Lady</h3>
+                        <p id="profileDisplayEmail" class="text-[11px] text-app-textMuted">email@beispiel.de</p>
+                    </div>
+                </div>
+
+                <div class="custom-card border rounded-2xl p-4 space-y-3 shadow-lg border-violet-500/30">
+                    <div class="flex justify-between items-center border-b border-app-textMuted/20 pb-2">
+                        <h4 class="text-xs font-bold text-violet-500"><i class="fa-solid fa-link mr-1.5"></i> Partner-Verknüpfung (Sync)</h4>
+                        <span id="syncStatusBadge" class="text-[9px] px-2 py-0.5 bg-slate-500/20 text-slate-500 rounded-full font-semibold">Nicht verknüpft</span>
+                    </div>
+                    <p class="text-[11px] text-app-textMuted">Verknüpfe dein Konto direkt mit dem Benutzernamen deines Partners, um Aufgaben und Status zu synchronisieren.</p>
+                    <div class="flex gap-2">
+                        <input type="text" id="partnerUsernameInput" placeholder="Partner Benutzername..." class="flex-1 custom-input border rounded-xl px-3 py-2 text-xs outline-none focus:border-app-accent">
+                        <button onclick="savePartnerSync()" class="px-4 py-2 bg-violet-600 hover:bg-violet-500 text-white font-semibold rounded-xl text-xs transition">Verknüpfen</button>
+                    </div>
+                </div>
+
+                <div class="custom-card border rounded-2xl p-4 space-y-3 shadow-lg">
+                    <div class="flex justify-between items-center border-b border-app-textMuted/20 pb-2">
+                        <h4 class="text-xs font-bold"><i class="fa-solid fa-sliders text-violet-500 mr-1.5"></i> Aktueller Lifestyle-Status</h4>
+                        <span class="text-[9px] text-app-textMuted">Mehrfachauswahl möglich</span>
+                    </div>
+
+                    <div class="space-y-2 pt-1">
+                        <label class="flex items-center gap-2.5 cursor-pointer text-xs">
+                            <input type="checkbox" id="statusFlr" onchange="saveLifestyleStatus()" class="rounded custom-input text-app-accent w-4 h-4">
+                            <span>👑 In FLR-Beziehung / Führung</span>
+                        </label>
+                        <label class="flex items-center gap-2.5 cursor-pointer text-xs">
+                            <input type="checkbox" id="statusBaby" onchange="saveLifestyleStatus()" class="rounded custom-input text-app-accent w-4 h-4">
+                            <span>👶 In Baby & Care / Windel-Disziplin</span>
+                        </label>
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-semibold text-app-textMuted uppercase mb-1 mt-2">Zusatz-Statement</label>
+                        <input type="text" id="userStatusStatement" oninput="saveLifestyleStatus()" placeholder="z. B. Führungsperson im Haushalt..." class="w-full custom-input border rounded-xl px-3 py-2 text-xs outline-none focus:border-app-accent">
+                    </div>
+
+                    <div id="lifestyleStatusBadgeDisplay" class="text-[10px] p-2.5 rounded-xl custom-input border text-center font-semibold text-violet-500">
+                        Aktiver Status: Keine Rollen ausgewählt
+                    </div>
+                </div>
+
+                <div class="custom-card border rounded-2xl p-4 space-y-3 shadow-lg">
+                    <div class="flex justify-between items-center border-b border-app-textMuted/20 pb-2">
+                        <h4 class="text-xs font-bold"><i class="fa-solid fa-user-group text-violet-500 mr-1.5"></i> Freundesliste</h4>
+                        <span id="friendCount" class="text-[10px] px-2 py-0.5 bg-violet-500/20 text-violet-500 rounded-full font-semibold">0 Freunde</span>
+                    </div>
+
+                    <div class="flex gap-2">
+                        <input type="text" id="newFriendInput" placeholder="Benutzername eingeben..." class="flex-1 custom-input border rounded-xl px-3 py-2 text-xs placeholder-app-textMuted outline-none focus:border-app-accent">
+                        <button onclick="addFriend()" class="px-3 py-2 bg-violet-600 hover:bg-violet-500 text-white font-semibold rounded-xl text-xs transition">
+                            <i class="fa-solid fa-user-plus mr-1"></i> Hinzufügen
+                        </button>
+                    </div>
+
+                    <div id="friendsListContainer" class="space-y-2 max-h-48 overflow-y-auto">
+                        <p class="text-[10px] text-app-textMuted text-center py-2">Noch keine Freunde gespeichert.</p>
+                    </div>
+                </div>
+
+                <div class="custom-card border rounded-2xl p-4 space-y-3 shadow-lg">
+                    <div class="flex justify-between items-center border-b border-app-textMuted/20 pb-2">
+                        <h4 class="text-xs font-bold"><i class="fa-solid fa-book text-purple-500 mr-1.5"></i> Mein Tagebuch & Notizen</h4>
+                        <span class="text-[9px] text-app-textMuted">Nur für dich sichtbar</span>
+                    </div>
+
+                    <div class="space-y-2">
+                        <input type="text" id="journalTitleInput" placeholder="Titel / Datum (z. B. 22.10.2026)" class="w-full custom-input border rounded-xl px-3 py-2 text-xs outline-none focus:border-app-accent">
+                        <textarea id="journalContentInput" rows="3" placeholder="Schreibe deine Gedanken, Protokolle oder Erlebnisse auf..." class="w-full custom-input border rounded-xl p-3 text-xs placeholder-app-textMuted outline-none resize-none focus:border-app-accent"></textarea>
+                        <button onclick="addJournalEntry()" class="w-full py-2 bg-gradient-to-r from-purple-600 to-violet-600 hover:opacity-95 text-white font-semibold rounded-xl text-xs shadow-md transition">
+                            <i class="fa-solid fa-plus mr-1"></i> Tagebucheintrag speichern
+                        </button>
+                    </div>
+
+                    <div id="journalEntriesContainer" class="space-y-2 max-h-56 overflow-y-auto pt-2">
+                        <p class="text-[10px] text-app-textMuted text-center py-2">Noch keine Tagebucheinträge vorhanden.</p>
+                    </div>
+                </div>
+
+                <div class="custom-card border rounded-2xl p-4 space-y-3 shadow-lg">
+                    <div class="flex justify-between items-center border-b border-app-textMuted/20 pb-2">
+                        <h4 class="text-xs font-bold"><i class="fa-solid fa-image text-pink-500 mr-1.5"></i> Profil Galerie</h4>
+                        <label class="px-2.5 py-1 bg-violet-600 hover:bg-violet-500 text-white rounded-lg text-[10px] font-semibold cursor-pointer transition">
+                            <i class="fa-solid fa-upload mr-1"></i> Öffentlich hochladen
+                            <input type="file" accept="image/*" class="hidden" onchange="uploadGalleryImage(event, 'public')">
+                        </label>
+                    </div>
+
+                    <div id="publicGalleryContainer" class="grid grid-cols-3 gap-2">
+                        <p class="col-span-3 text-[10px] text-app-textMuted text-center py-2">Keine öffentlichen Bilder.</p>
+                    </div>
+
+                    <div class="pt-3 border-t border-app-textMuted/20 space-y-2">
+                        <div class="flex justify-between items-center">
+                            <h5 class="text-xs font-bold flex items-center gap-1.5">
+                                <i class="fa-solid fa-lock text-amber-500"></i> Privater Bereich (Gesperrt)
+                            </h5>
+                            <button onclick="setupOrChangeGalleryPassword()" class="text-[9px] text-amber-500 hover:underline font-semibold">Passwort festlegen / ändern</button>
+                        </div>
+
+                        <div id="privateGalleryLock" class="custom-input border rounded-xl p-4 text-center space-y-2">
+                            <p class="text-[11px] text-app-textMuted">Dieser Bereich ist passwortgeschützt. Gib dein Passwort ein, um deine privaten Bilder anzusehen oder neue hochzuladen.</p>
+                            <div class="flex gap-2 max-w-xs mx-auto">
+                                <input type="password" id="privatePasswordInput" placeholder="Passwort eingeben" class="flex-1 custom-card border rounded-xl px-3 py-2 text-xs outline-none">
+                                <button onclick="unlockPrivateGallery()" class="px-3 py-2 bg-amber-600 hover:bg-amber-500 text-white text-xs font-semibold rounded-xl transition">Entsperren</button>
+                            </div>
+                        </div>
+
+                        <div id="privateGalleryContent" class="hidden space-y-3">
+                            <div class="flex justify-between items-center bg-amber-500/10 border border-amber-500/30 p-2.5 rounded-xl">
+                                <span class="text-[10px] text-amber-500 font-semibold"><i class="fa-solid fa-unlock mr-1"></i> Privat entsperrt & bereit</span>
+                                <div class="flex gap-2">
+                                    <label class="px-3 py-1.5 bg-amber-600 hover:bg-amber-500 text-white rounded-lg text-[10px] font-semibold cursor-pointer shadow transition">
+                                        <i class="fa-solid fa-upload mr-1"></i> Privat hochladen
+                                        <input type="file" accept="image/*" class="hidden" onchange="uploadGalleryImage(event, 'private')">
+                                    </label>
+                                    <button onclick="lockPrivateGallery()" class="px-2.5 py-1.5 custom-input hover:bg-rose-500/20 text-rose-500 rounded-lg text-[10px] font-semibold transition">Sperren</button>
+                                </div>
+                            </div>
+                            <div id="privateGalleryContainer" class="grid grid-cols-3 gap-2">
+                                <p class="col-span-3 text-[10px] text-app-textMuted text-center py-2">Keine privaten Bilder.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="custom-card border rounded-2xl p-4 space-y-2 shadow-lg">
+                    <label class="block text-xs font-bold"><i class="fa-solid fa-user-pen text-violet-500 mr-1.5"></i> Über mich</label>
+                    <textarea id="profileAboutText" rows="6" oninput="saveProfileData()" placeholder="Erzähle etwas über dich..." class="w-full custom-input border rounded-xl p-3 text-xs placeholder-app-textMuted outline-none resize-y focus:border-app-accent"></textarea>
+                </div>
+
+                <div class="custom-card border rounded-2xl p-4 space-y-2 shadow-lg">
+                    <label class="block text-xs font-bold"><i class="fa-solid fa-heart text-pink-500 mr-1.5"></i> Vorlieben & Interessen</label>
+                    <textarea id="profilePreferencesText" rows="6" oninput="saveProfileData()" placeholder="z. B. FLR, Führung..." class="w-full custom-input border rounded-xl p-3 text-xs placeholder-app-textMuted outline-none resize-y focus:border-app-accent"></textarea>
+                </div>
+            </div>
+        </main>
+
+        <!-- BOTTOM NAVIGATION -->
+        <nav class="fixed bottom-0 left-0 right-0 backdrop-blur-md border-t px-2 py-2.5 flex justify-around items-center z-40 max-w-lg mx-auto custom-card">
+            <button onclick="switchTab('forum')" id="nav-forum" class="flex flex-col items-center gap-1 text-app-accent"><i class="fa-solid fa-comments text-lg"></i><span class="text-[9px] font-semibold">Forum</span></button>
+            <button onclick="switchTab('chat')" id="nav-chat" class="flex flex-col items-center gap-1 text-app-textMuted hover:text-app-accent"><i class="fa-solid fa-paper-plane text-lg"></i><span class="text-[9px] font-semibold">Chat</span></button>
+            <button onclick="switchTab('groups')" id="nav-groups" class="flex flex-col items-center gap-1 text-app-textMuted hover:text-app-accent"><i class="fa-solid fa-users text-lg"></i><span class="text-[9px] font-semibold">Gruppen</span></button>
+            <button onclick="switchTab('flr')" id="nav-flr" class="flex flex-col items-center gap-1 text-app-textMuted hover:text-app-accent"><i class="fa-solid fa-crown text-lg"></i><span class="text-[9px] font-semibold">FLR</span></button>
+            <button onclick="switchTab('profile')" id="nav-profile" class="flex flex-col items-center gap-1 text-app-textMuted hover:text-app-accent"><i class="fa-solid fa-user text-lg"></i><span class="text-[9px] font-semibold">Profil</span></button>
+        </nav>
+    </div>
+
+    <!-- SIDE DRAWER (INTEGRIERTES MENÜ) -->
+    <div id="sideMenu" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex">
+        <div class="w-72 custom-card h-full p-5 flex flex-col justify-between border-r overflow-y-auto">
+            <div class="space-y-4">
+                <div class="flex justify-between items-center pb-3 border-b border-app-textMuted/20">
+                    <span class="font-bold text-sm"><i class="fa-solid fa-compass text-violet-500 mr-2"></i>Navigation</span>
+                    <button onclick="toggleSideMenu()" class="text-app-textMuted hover:text-app-accent"><i class="fa-solid fa-xmark text-base"></i></button>
+                </div>
+                
+                <div class="space-y-1.5">
+                    <button onclick="switchTab('forum'); toggleSideMenu();" class="w-full text-left px-3 py-2 rounded-xl text-xs font-semibold hover:bg-app-accent/10 transition flex items-center gap-2.5"><i class="fa-solid fa-comments text-violet-500 w-4"></i> Forum</button>
+                    <button onclick="switchTab('chat'); toggleSideMenu();" class="w-full text-left px-3 py-2 rounded-xl text-xs font-semibold hover:bg-app-accent/10 transition flex items-center gap-2.5"><i class="fa-solid fa-paper-plane text-violet-500 w-4"></i> Chat</button>
+                    <button onclick="switchTab('groups'); toggleSideMenu();" class="w-full text-left px-3 py-2 rounded-xl text-xs font-semibold hover:bg-app-accent/10 transition flex items-center gap-2.5"><i class="fa-solid fa-users text-violet-500 w-4"></i> Gruppen</button>
+                    <button onclick="switchTab('flr'); toggleSideMenu();" class="w-full text-left px-3 py-2 rounded-xl text-xs font-semibold hover:bg-app-accent/10 transition flex items-center gap-2.5"><i class="fa-solid fa-crown text-violet-500 w-4"></i> FLR & Lounge</button>
+                    <button onclick="switchTab('profile'); toggleSideMenu();" class="w-full text-left px-3 py-2 rounded-xl text-xs font-semibold hover:bg-app-accent/10 transition flex items-center gap-2.5"><i class="fa-solid fa-user text-violet-500 w-4"></i> Profil</button>
+                    <button onclick="logoutUser(); toggleSideMenu();" class="w-full text-left px-3 py-2 rounded-xl text-xs font-semibold hover:bg-app-accent/10 transition flex items-center gap-2.5"><i class="fa-solid fa-right-from-bracket text-violet-500 w-4"></i> Abmelden</button>
+                </div>
+                
+                <div class="border-t border-app-textMuted/20 pt-3">
+                    <button onclick="toggleDarkMode()" class="w-full text-left px-3 py-2.5 rounded-xl text-xs font-semibold hover:bg-app-accent/10 transition flex items-center gap-2.5">
+                        <i id="darkModeIcon" class="fa-solid fa-moon text-violet-500 w-4"></i> 
+                        <span id="darkModeText">Hell / Dunkel Modus</span>
+                    </button>
+                </div>
+
+                <div class="border-t border-app-textMuted/20 pt-3 space-y-1">
+                    <button onclick="openInfoModal('Richtlinien'); toggleSideMenu();" class="w-full text-left px-3 py-2 rounded-xl text-xs hover:bg-app-accent/10 transition flex items-center gap-2.5"><i class="fa-solid fa-shield-halved text-violet-500 w-4"></i> Richtlinien</button>
+                    <button onclick="openInfoModal('Kontakt'); toggleSideMenu();" class="w-full text-left px-3 py-2 rounded-xl text-xs hover:bg-app-accent/10 transition flex items-center gap-2.5"><i class="fa-solid fa-envelope text-violet-500 w-4"></i> Kontakt</button>
+                    <button onclick="openInfoModal('Verantwortlich'); toggleSideMenu();" class="w-full text-left px-3 py-2 rounded-xl text-xs hover:bg-app-accent/10 transition flex items-center gap-2.5"><i class="fa-solid fa-user-shield text-violet-500 w-4"></i> Verantwortlich</button>
+                    <button onclick="openInfoModal('Community Richtlinien'); toggleSideMenu();" class="w-full text-left px-3 py-2 rounded-xl text-xs hover:bg-app-accent/10 transition flex items-center gap-2.5"><i class="fa-solid fa-users text-violet-500 w-4"></i> Community Richtlinien</button>
+                    <button onclick="openInfoModal('Impressum'); toggleSideMenu();" class="w-full text-left px-3 py-2 rounded-xl text-xs hover:bg-app-accent/10 transition flex items-center gap-2.5"><i class="fa-solid fa-circle-info text-violet-500 w-4"></i> Impressum</button>
+                </div>
+
+                <div class="border-t border-app-textMuted/20 pt-3 space-y-1.5">
+                    <button onclick="enablePanicMode(); toggleSideMenu();" class="w-full text-left px-3 py-2.5 rounded-xl text-xs font-semibold text-amber-500 hover:bg-amber-500/10 transition flex items-center gap-2.5"><i class="fa-solid fa-eye-slash w-4"></i> Tarn-Modus (Panic Button)</button>
+                    <button onclick="openBlockedModal(); toggleSideMenu();" class="w-full text-left px-3 py-2.5 rounded-xl text-xs font-semibold text-rose-500 hover:bg-rose-500/10 transition flex items-center gap-2.5"><i class="fa-solid fa-ban w-4"></i> Blockierte Nutzer verwalten</button>
+                    <button onclick="deleteAccountPermanently(); toggleSideMenu();" class="w-full text-left px-3 py-2.5 rounded-xl text-xs font-semibold text-rose-600 hover:bg-rose-600/10 transition flex items-center gap-2.5"><i class="fa-solid fa-user-xmark w-4"></i> Account endgültig löschen</button>
+                </div>
+            </div>
+            
+            <div class="text-[10px] text-app-textMuted text-center pt-4 border-t border-app-textMuted/20 mt-4">
+                Gewickelt Community v3.0
+            </div>
+        </div>
+        <div class="flex-1" onclick="toggleSideMenu()"></div>
+    </div>
+
+    <!-- INFO MODAL -->
+    <div id="infoModal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="custom-card border rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl">
+            <div class="flex justify-between items-center border-b border-app-textMuted/20 pb-3">
+                <h3 id="infoModalTitle" class="text-sm font-bold">Titel</h3>
+                <button onclick="closeInfoModal()" class="text-app-textMuted hover:text-app-accent"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="infoModalContent" class="text-xs text-app-textMuted space-y-2 max-h-60 overflow-y-auto leading-relaxed">
+                Inhalt...
+            </div>
+            <button onclick="closeInfoModal()" class="w-full py-2.5 bg-violet-600 hover:bg-violet-500 text-white font-semibold rounded-xl text-xs transition">
+                Schließen
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'https://gewickelt-server-1.onrender.com/api/posts';
+        const MESSAGES_API_URL = 'https://gewickelt-server-1.onrender.com/api/messages';
+        const PUBLIC_CHAT_API_URL = 'https://gewickelt-server-1.onrender.com/api/chat';
+        
+        let currentUser = { email: '', username: '', role: '' };
+        let currentFilter = 'Alle';
+        let allServerPosts = [];
+        let friendsList = [];
+        let blockedUsers = [];
+        let publicGallery = [];
+        let privateGallery = [];
+        let journalEntries = [];
+        let communityGroups = [
+            { id: 1, name: '👑 FLR & Keyholder Austausch', members: ['Admin', 'Keyholder_Lady'], desc: 'Erfahrungsaustausch rund um Feminin Led Relationships.', isPrivate: false, rules: 'Respektvoller Umgang, Vertraulichkeit.', pendingRequests: [] },
+            { id: 2, name: '👶 ABDL Pflege & Erziehung', members: ['Admin'], desc: 'Gemeinschaft für den ABDL Lifestyle und Windel-Disziplin.', isPrivate: false, rules: 'Sicherer Raum (18+).', pendingRequests: [] }
+        ];
+        let activeGroup = null;
+        let groupPosts = {};
+        let groupChats = {};
+        let groupPolls = {};
+        let groupResources = {};
+        let currentPostImage = null;
+        let currentLeaderFolder = 'protokolle';
+        let currentTaskProofImage = null;
+
+        const flrTasksAndPunishmentsPool = [
+            "👑 Würfel-Ergebnis: Vollständiger Kniefall bei jeder Begrüßung der Führungsperson heute.",
+            "🧹 Würfel-Ergebnis: Alle Haushalts- oder Loyalitätspflichten ohne Aufforderung sofort erledigen.",
+            "📝 Würfel-Ergebnis: 20 Mal fehlerfrei schreiben: 'Ich diene meiner Führungsperson bedingungslos.'",
+            "💬 Würfel-Ergebnis: Im öffentlichen Chat der Herrin öffentlich Respekt bezeugen."
+        ];
+
+        const wheelTasks = [
+            "👑 24 Stunden absolute Unterwürfigkeit",
+            "📝 15 Zeilen Loyalitätsschwur schreiben",
+            "🧹 Sämtliche Aufgaben im Haushalt ohne Zögern erledigen",
+            "💬 Im öffentlichen Chat der Herrin huldigen"
+        ];
+
+        function playSoundFx() {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(440, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.2);
+                gain.gain.setValueAtTime(0.1, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start();
+                osc.stop(ctx.currentTime + 0.2);
+            } catch(e) {}
+        }
+
+        function playNotificationSound() {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(587.33, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.3);
+            } catch (e) {}
+        }
+
+        function triggerNotificationBlob(tabElementId) {
+            playNotificationSound();
+            const el = document.getElementById(tabElementId);
+            if (el) {
+                el.classList.add('notification-blob');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('gewickelt_theme');
+            if (savedTheme === 'light') {
+                document.documentElement.classList.remove('dark');
+                updateDarkModeIcon(false);
+            } else {
+                document.documentElement.classList.add('dark');
+                updateDarkModeIcon(true);
+            }
+
+            checkSavedCredentials();
+
+            const savedUser = localStorage.getItem('gewickelt_session_user');
+            const rememberMeFlag = localStorage.getItem('gewickelt_remember_me');
+
+            if (savedUser && rememberMeFlag === 'true') {
+                try {
+                    currentUser = JSON.parse(savedUser);
+                    initAppSession();
+                } catch (e) {
+                    document.getElementById('authOverlay').classList.remove('hidden');
+                }
+            } else {
+                document.getElementById('authOverlay').classList.remove('hidden');
+            }
+
+            setInterval(() => {
+                if (!document.getElementById('view-chat').classList.contains('hidden')) {
+                    loadPublicChatMessages();
+                }
+            }, 3000);
+        });
+
+        function openForgotPasswordModal() {
+            document.getElementById('forgotPasswordModal').classList.remove('hidden');
+            document.getElementById('forgotStep1').classList.remove('hidden');
+            document.getElementById('forgotStep2').classList.add('hidden');
+            document.getElementById('forgotEmailInput').value = '';
+            document.getElementById('forgotCodeInput').value = '';
+            document.getElementById('newPasswordInput').value = '';
+        }
+
+        function closeForgotPasswordModal() {
+            document.getElementById('forgotPasswordModal').classList.add('hidden');
+        }
+
+        function sendResetCode() {
+            const email = document.getElementById('forgotEmailInput').value.trim();
+            if (!email || !email.includes('@')) {
+                alert('Bitte gib eine gültige E-Mail-Adresse ein.');
+                return;
+            }
+            document.getElementById('forgotStep1').classList.add('hidden');
+            document.getElementById('forgotStep2').classList.remove('hidden');
+        }
+
+        function confirmNewPassword() {
+            const code = document.getElementById('forgotCodeInput').value.trim();
+            const newPass = document.getElementById('newPasswordInput').value.trim();
+            
+            if (code !== '123456') {
+                alert('Falscher Bestätigungscode! Der Demo-Code lautet: 123456');
+                return;
+            }
+            if (!newPass || newPass.length < 6) {
+                alert('Das neue Passwort muss mindestens 6 Zeichen lang sein.');
+                return;
+            }
+
+            const email = document.getElementById('forgotEmailInput').value.trim();
+            if(email) {
+                document.getElementById('loginEmail').value = email;
+            }
+            document.getElementById('loginPassword').value = newPass;
+
+            alert('Passwort erfolgreich zurückgesetzt! Du kannst dich jetzt mit deinem neuen Passwort einloggen.');
+            closeForgotPasswordModal();
+        }
+
+        function openSearchModal() {
+            document.getElementById('searchModal').classList.remove('hidden');
+            document.getElementById('globalSearchInput').value = '';
+            document.getElementById('searchResultsContainer').innerHTML = '<p class="text-[10px] text-app-textMuted text-center py-4">Gib einen Suchbegriff ein, um Beiträge und User zu finden.</p>';
+            setTimeout(() => document.getElementById('globalSearchInput').focus(), 100);
+        }
+
+        function closeSearchModal() {
+            document.getElementById('searchModal').classList.add('hidden');
+        }
+
+        function executeGlobalSearch() {
+            const query = document.getElementById('globalSearchInput').value.trim().toLowerCase();
+            const container = document.getElementById('searchResultsContainer');
+            if (!query) {
+                container.innerHTML = '<p class="text-[10px] text-app-textMuted text-center py-4">Gib einen Suchbegriff ein, um Beiträge und User zu finden.</p>';
+                return;
+            }
+
+            const matchingPosts = allServerPosts.filter(p => 
+                (p.content && p.content.toLowerCase().includes(query)) ||
+                (p.username && p.username.toLowerCase().includes(query)) ||
+                (p.category && p.category.toLowerCase().includes(query))
+            );
+
+            let foundUsers = new Set();
+            allServerPosts.forEach(p => { if (p.username && p.username.toLowerCase().includes(query)) foundUsers.add(p.username); });
+            friendsList.forEach(f => { if (f.name.toLowerCase().includes(query)) foundUsers.add(f.name); });
+            if (currentUser.username.toLowerCase().includes(query)) foundUsers.add(currentUser.username);
+
+            let html = '';
+
+            if (foundUsers.size > 0) {
+                html += `<div class="mb-3"><h4 class="text-[10px] font-bold text-violet-500 uppercase tracking-wider mb-1.5"><i class="fa-solid fa-users mr-1"></i> Gefundene Benutzer</h4><div class="space-y-1.5">`;
+                foundUsers.forEach(u => {
+                    html += `
+                        <div class="custom-input border rounded-xl p-2.5 flex justify-between items-center">
+                            <span class="text-xs font-bold">${u}</span>
+                            <div class="flex gap-1.5">
+                                <button onclick="closeSearchModal(); startChatWith('${u}')" class="px-2.5 py-1 bg-violet-600 hover:bg-violet-500 text-white rounded-lg text-[9px] font-semibold">Chat</button>
+                            </div>
+                        </div>
+                    `;
+                });
+                html += `</div></div>`;
+            }
+
+            if (matchingPosts.length > 0) {
+                html += `<div><h4 class="text-[10px] font-bold text-violet-500 uppercase tracking-wider mb-1.5"><i class="fa-solid fa-comments mr-1"></i> Gefundene Beiträge (${matchingPosts.length})</h4><div class="space-y-2">`;
+                matchingPosts.forEach(p => {
+                    html += `
+                        <div class="custom-input border rounded-xl p-2.5 space-y-1">
+                            <div class="flex justify-between items-center text-[9px] text-app-textMuted">
+                                <span class="font-bold text-violet-500">${p.username || 'Anonym'}</span>
+                                <span class="px-1.5 py-0.2 bg-purple-500/10 text-purple-500 rounded">${p.category || 'Allgemein'}</span>
+                            </div>
+                            <p class="text-xs">${p.content || '[Bild-Beitrag]'}</p>
+                        </div>
+                    `;
+                });
+                html += `</div></div>`;
+            }
+
+            if (!html) {
+                container.innerHTML = '<p class="text-[10px] text-app-textMuted text-center py-4">Keine Treffer für deine Suche gefunden.</p>';
+            } else {
+                container.innerHTML = html;
+            }
+        }
+
+        function openBlockedModal() {
+            renderBlockedUsersModal();
+            document.getElementById('blockedModal').classList.remove('hidden');
+        }
+
+        function closeBlockedModal() {
+            document.getElementById('blockedModal').classList.add('hidden');
+        }
+
+        function deleteAccountPermanently() {
+            const confirmName = prompt(`ACHTUNG: Möchtest du deinen Account "${currentUser.username}" wirklich endgültig löschen?\n\nGib zur Bestätigung deinen Benutzernamen ein:`);
+            if (confirmName === null) return;
+
+            if (confirmName.trim().toLowerCase() !== currentUser.username.toLowerCase()) {
+                alert('Der eingegebene Benutzername stimmt nicht überein. Löschung abgebrochen.');
+                return;
+            }
+
+            localStorage.removeItem('gewickelt_session_user');
+            localStorage.removeItem('gewickelt_remember_me');
+            localStorage.removeItem('gewickelt_avatar_' + currentUser.username);
+            localStorage.removeItem('gewickelt_cover_' + currentUser.username);
+            localStorage.removeItem('gewickelt_about_' + currentUser.username);
+            localStorage.removeItem('gewickelt_preferences_' + currentUser.username);
+            localStorage.removeItem('gewickelt_friends_' + currentUser.username);
+            localStorage.removeItem('gewickelt_blocked_' + currentUser.username);
+            localStorage.removeItem('gewickelt_pub_gal_' + currentUser.username);
+            localStorage.removeItem('gewickelt_priv_gal_' + currentUser.username);
+            localStorage.removeItem('gewickelt_gal_pass_' + currentUser.username);
+            localStorage.removeItem('gewickelt_journal_' + currentUser.username);
+            localStorage.removeItem('gewickelt_status_multi_' + currentUser.username);
+            localStorage.removeItem('gewickelt_flr_rules_' + currentUser.username);
+            localStorage.removeItem('gewickelt_current_task_' + currentUser.username);
+            localStorage.removeItem('gewickelt_partner_' + currentUser.username);
+
+            alert('Dein Account wurde erfolgreich gelöscht.');
+            location.reload();
+        }
+
+        function loadBlockedUsers() {
+            const saved = localStorage.getItem('gewickelt_blocked_' + currentUser.username);
+            blockedUsers = saved ? JSON.parse(saved) : [];
+        }
+
+        function blockUser(targetUsername) {
+            if (!targetUsername) return;
+            if (targetUsername.toLowerCase() === currentUser.username.toLowerCase()) {
+                alert('Du kannst dich nicht selbst blockieren.');
+                return;
+            }
+            if (!blockedUsers.includes(targetUsername)) {
+                blockedUsers.push(targetUsername);
+                localStorage.setItem('gewickelt_blocked_' + currentUser.username, JSON.stringify(blockedUsers));
+                alert(`Benutzer "${targetUsername}" wurde erfolgreich blockiert.`);
+                renderBlockedUsersModal();
+                renderFilteredPosts();
+                loadPublicChatMessages();
+            }
+        }
+
+        function unblockUser(targetUsername) {
+            blockedUsers = blockedUsers.filter(u => u !== targetUsername);
+            localStorage.setItem('gewickelt_blocked_' + currentUser.username, JSON.stringify(blockedUsers));
+            renderBlockedUsersModal();
+            renderFilteredPosts();
+            loadPublicChatMessages();
+        }
+
+        function renderBlockedUsersModal() {
+            const container = document.getElementById('blockedModalList');
+            if (!container) return;
+
+            if (!blockedUsers.length) {
+                container.innerHTML = '<p class="text-[10px] text-app-textMuted text-center py-4">Du hast aktuell keine Nutzer blockiert.</p>';
+                return;
+            }
+
+            container.innerHTML = blockedUsers.map(u => `
+                <div class="custom-input border rounded-xl p-2.5 flex justify-between items-center">
+                    <span class="text-xs font-bold text-rose-500"><i class="fa-solid fa-user-slash mr-1.5"></i> ${u}</span>
+                    <button onclick="unblockUser('${u}')" class="px-2.5 py-1 bg-violet-600 hover:bg-violet-500 text-white rounded-lg text-[9px] font-semibold">
+                        Entsperren
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function reportUser(targetUsername, context) {
+            const reason = prompt(`Grund für die Meldung von "${targetUsername}" (${context}):`);
+            if (reason) {
+                alert(`Vielen Dank. Der Benutzer "${targetUsername}" wurde gemeldet. Wir prüfen den Vorfall.`);
+            }
+        }
+
+        function checkSavedCredentials() {
+            const savedCreds = localStorage.getItem('gewickelt_saved_credentials');
+            if (savedCreds) {
+                try {
+                    const creds = JSON.parse(savedCreds);
+                    document.getElementById('loginEmail').value = creds.email || '';
+                    document.getElementById('loginUsername').value = creds.username || '';
+                    document.getElementById('loginPassword').value = creds.password || '';
+                    if (creds.role) {
+                        document.getElementById('loginRole').value = creds.role;
+                    }
+                    document.getElementById('rememberMe').checked = true;
+                    document.getElementById('clearSavedCredsContainer').classList.remove('hidden');
+                } catch (e) {}
+            }
+        }
+
+        function clearSavedCredentials() {
+            localStorage.removeItem('gewickelt_saved_credentials');
+            document.getElementById('loginEmail').value = '';
+            document.getElementById('loginUsername').value = '';
+            document.getElementById('loginPassword').value = '';
+            document.getElementById('clearSavedCredsContainer').classList.add('hidden');
+            alert('Gespeicherte Anmeldedaten wurden gelöscht.');
+        }
+
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            const isDark = html.classList.toggle('dark');
+            localStorage.setItem('gewickelt_theme', isDark ? 'dark' : 'light');
+            updateDarkModeIcon(isDark);
+        }
+
+        function updateDarkModeIcon(isDark) {
+            const icon = document.getElementById('darkModeIcon');
+            const text = document.getElementById('darkModeText');
+            if (isDark) {
+                icon.className = "fa-solid fa-sun text-amber-500 w-4";
+                text.innerText = "Zum Hell-Modus";
+            } else {
+                icon.className = "fa-solid fa-moon text-violet-600 w-4";
+                text.innerText = "Zum Dunkel-Modus";
+            }
+        }
+
+        function handleAuthLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value.trim();
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+            const role = document.getElementById('loginRole').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+
+            if(username && email && password) {
+                currentUser = { email, username, role };
+                localStorage.setItem('gewickelt_session_user', JSON.stringify(currentUser));
+                
+                if (rememberMe) {
+                    localStorage.setItem('gewickelt_remember_me', 'true');
+                    const credsObj = { email, username, password, role };
+                    localStorage.setItem('gewickelt_saved_credentials', JSON.stringify(credsObj));
+                } else {
+                    localStorage.setItem('gewickelt_remember_me', 'false');
+                    localStorage.removeItem('gewickelt_saved_credentials');
+                }
+
+                document.getElementById('authOverlay').classList.add('hidden');
+                initAppSession();
+            }
+        }
+
+        function initAppSession() {
+            document.getElementById('headerUserRole').innerText = currentUser.role;
+            document.getElementById('profileDisplayName').innerText = currentUser.username;
+            document.getElementById('profileDisplayRole').innerText = currentUser.role;
+            document.getElementById('profileDisplayEmail').innerText = currentUser.email;
+            
+            document.getElementById('welcomeUserTitle').innerText = `Herzlich willkommen zurück, ${currentUser.username}!`;
+            
+            loadBlockedUsers();
+            loadUserProfileData();
+            loadLifestyleStatus();
+            loadFriends();
+            loadGalleries();
+            loadJournal();
+            loadPosts();
+            loadGroups();
+            loadGroupDataAll();
+            loadFlrSettings();
+            loadFlrTask();
+            loadPartnerSync();
+            loadFolderPosts();
+            loadPublicChatMessages();
+            loadStreak();
+        }
+
+        function logoutUser() {
+            localStorage.removeItem('gewickelt_session_user');
+            localStorage.removeItem('gewickelt_remember_me');
+            location.reload();
+        }
+
+        function switchTab(tabId) {
+            const tabs = ['forum', 'chat', 'groups', 'flr', 'profile'];
+            tabs.forEach(id => {
+                const view = document.getElementById('view-' + id);
+                const btn = document.getElementById('nav-' + id);
+                if (view) view.classList.toggle('hidden', id !== tabId);
+                if (btn) btn.className = id === tabId ? "flex flex-col items-center gap-1 text-app-accent" : "flex flex-col items-center gap-1 text-app-textMuted hover:text-app-accent";
+            });
+            if (tabId === 'chat') {
+                loadPublicChatMessages();
+            }
+        }
+
+        function doDailyCheckin() {
+            const today = new Date().toDateString();
+            const lastCheckin = localStorage.getItem('gewickelt_last_checkin_' + currentUser.username);
+            let streak = parseInt(localStorage.getItem('gewickelt_streak_' + currentUser.username) || '0');
+
+            if (lastCheckin === today) {
+                alert('Du hast heute bereits eingecheckt!');
+                return;
+            }
+
+            streak++;
+            localStorage.setItem('gewickelt_streak_' + currentUser.username, streak);
+            localStorage.setItem('gewickelt_last_checkin_' + currentUser.username, today);
+            loadStreak();
+            playSoundFx();
+            alert(`Streak erfolgreich erhöht! Du bist bei ${streak} Tagen fehlerfrei.`);
+        }
+
+        function loadStreak() {
+            const streak = localStorage.getItem('gewickelt_streak_' + currentUser.username) || '0';
+            const disp = document.getElementById('streakDisplay');
+            if(disp) disp.innerText = streak + ' Tage';
+        }
+
+        function spinWheelOfFortune() {
+            playSoundFx();
+            const randomTask = wheelTasks[Math.floor(Math.random() * wheelTasks.length)];
+            document.getElementById('wheelResultBox').innerText = randomTask;
+        }
+
+        function generateDigitalContract() {
+            const ruleInput = document.getElementById('contractRuleInput');
+            const rule = ruleInput.value.trim();
+            if (!rule) {
+                alert('Bitte gib mindestens eine spezifische Regel oder Vereinbarung ein.');
+                return;
+            }
+            alert(`Digitaler Vertrag erstellt und für ${currentUser.username} gesichert:\n\n"${rule}"\n\nStatus: Gültig & Unwiderruflich.`);
+            ruleInput.value = '';
+        }
+
+        function enablePanicMode() {
+            document.getElementById('panicFacade').classList.remove('hidden');
+        }
+        function disablePanicMode() {
+            document.getElementById('panicFacade').classList.add('hidden');
+        }
+
+        function openEventCalendarModal() { document.getElementById('eventCalendarModal').classList.remove('hidden'); }
+        function closeEventCalendarModal() { document.getElementById('eventCalendarModal').classList.add('hidden'); }
+        function openConfessionModal() { document.getElementById('confessionModal').classList.remove('hidden'); }
+        function closeConfessionModal() { document.getElementById('confessionModal').classList.add('hidden'); }
+
+        function submitConfession() {
+            const text = document.getElementById('confessionInput').value.trim();
+            if (!text) return;
+            const list = document.getElementById('confessionListContainer');
+            list.innerHTML += `<div class="custom-input border rounded-xl p-2.5 text-xs">🔒 <em>Anonym:</em> ${text}</div>`;
+            document.getElementById('confessionInput').value = '';
+            alert('Anonyme Beichte erfolgreich eingereicht.');
+        }
+
+        function loadGroups() {
+            const savedGroups = localStorage.getItem('gewickelt_custom_groups');
+            if (savedGroups) {
+                try { communityGroups = JSON.parse(savedGroups); } catch(e) {}
+            }
+
+            const container = document.getElementById('groupsContainer');
+            container.innerHTML = communityGroups.map(g => {
+                const memberList = Array.isArray(g.members) ? g.members : [];
+                const memberCount = memberList.length;
+                return `
+                    <div class="custom-input border rounded-xl p-3 flex justify-between items-center">
+                        <div class="space-y-1 cursor-pointer flex-1" onclick="openGroupDetail(${g.id})">
+                            <div class="flex items-center gap-2">
+                                <h4 class="text-xs font-bold hover:text-violet-500 transition">${g.name}</h4>
+                                <span class="text-[8px] px-2 py-0.5 ${g.isPrivate ? 'bg-amber-500/20 text-amber-500' : 'bg-emerald-500/20 text-emerald-500'} rounded-full font-semibold">${g.isPrivate ? 'Privat' : 'Öffentlich'}</span>
+                            </div>
+                            <p class="text-[10px] text-app-textMuted">${g.desc}</p>
+                            <span class="text-[9px] text-violet-500 font-semibold"><i class="fa-solid fa-users mr-1"></i>${memberCount} ${memberCount === 1 ? 'Mitglied' : 'Mitglieder'}</span>
+                        </div>
+                        <button onclick="openGroupDetail(${g.id})" class="px-3 py-1.5 bg-violet-600 hover:bg-violet-500 text-white rounded-lg text-[10px] font-semibold transition">Öffnen</button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function openCreateGroupModal() {
+            const groupName = prompt('Name der neuen Gruppe:');
+            const groupDesc = prompt('Beschreibung der Gruppe:');
+            const isPrivateConfirm = confirm('Soll diese Gruppe privat sein (Mitgliedschaft nur auf Anfrage)?\n[OK] = Ja, Privat | [Abbrechen] = Nein, Öffentlich');
+            
+            if (groupName && groupDesc) {
+                const newGroup = { 
+                    id: Date.now(), 
+                    name: groupName, 
+                    members: [currentUser.username], 
+                    desc: groupDesc, 
+                    isPrivate: isPrivateConfirm, 
+                    rules: 'Standard-Regeln: Respekt und Diskretion.',
+                    pendingRequests: []
+                };
+                communityGroups.push(newGroup);
+                localStorage.setItem('gewickelt_custom_groups', JSON.stringify(communityGroups));
+                loadGroups();
+                alert('Gruppe erfolgreich erstellt!');
+            }
+        }
+
+        function openGroupDetail(groupId) {
+            activeGroup = communityGroups.find(g => g.id === groupId);
+            if (!activeGroup) return;
+
+            if (!Array.isArray(activeGroup.members)) {
+                activeGroup.members = ['Admin'];
+            }
+
+            document.getElementById('activeGroupTitle').innerText = activeGroup.name;
+            document.getElementById('activeGroupDesc').innerText = activeGroup.desc;
+            document.getElementById('activeGroupBadge').innerText = activeGroup.isPrivate ? 'Privat / Geschützt' : 'Öffentlich';
+            document.getElementById('activeGroupBadge').className = activeGroup.isPrivate ? 'text-[9px] px-2 py-0.5 bg-amber-500/20 text-amber-500 rounded-full font-semibold' : 'text-[9px] px-2 py-0.5 bg-emerald-500/20 text-emerald-500 rounded-full font-semibold';
+            
+            const memberCount = activeGroup.members.length;
+            document.getElementById('activeGroupMembersCount').innerHTML = `<i class="fa-solid fa-users mr-1"></i> ${memberCount} ${memberCount === 1 ? 'Mitglied' : 'Mitglieder'}`;
+
+            const isMember = activeGroup.members.includes(currentUser.username);
+            const joinBtn = document.getElementById('groupJoinBtn');
+            if (isMember) {
+                joinBtn.innerText = 'Beigetreten';
+                joinBtn.className = 'px-3 py-1.5 custom-input border text-emerald-500 rounded-xl text-xs font-semibold cursor-default';
+            } else {
+                joinBtn.innerText = activeGroup.isPrivate ? 'Beitritt anfragen' : 'Gruppe beitreten';
+                joinBtn.className = 'px-3 py-1.5 bg-violet-600 hover:bg-violet-500 text-white rounded-xl text-xs font-semibold transition';
+            }
+            
+            document.getElementById('activeGroupPinnedRules').innerText = activeGroup.rules || 'Keine Regeln hinterlegt.';
+
+            document.getElementById('groupsMainView').classList.add('hidden');
+            document.getElementById('groupDetailView').classList.remove('hidden');
+            
+            switchGroupTab('feed');
+            loadGroupDataAll();
+        }
+
+        function toggleJoinGroup() {
+            if (!activeGroup) return;
+            if (!Array.isArray(activeGroup.members)) activeGroup.members = [];
+
+            if (activeGroup.members.includes(currentUser.username)) {
+                alert('Du bist bereits Mitglied in dieser Gruppe.');
+                return;
+            }
+
+            if (activeGroup.isPrivate) {
+                alert('Deine Beitrittsanfrage wurde an den Gruppenadministrator gesendet.');
+            } else {
+                activeGroup.members.push(currentUser.username);
+                localStorage.setItem('gewickelt_custom_groups', JSON.stringify(communityGroups));
+                alert('Du bist der Gruppe erfolgreich beigetreten!');
+                openGroupDetail(activeGroup.id);
+                loadGroups();
+            }
+        }
+
+        function closeGroupDetail() {
+            activeGroup = null;
+            document.getElementById('groupDetailView').classList.add('hidden');
+            document.getElementById('groupsMainView').classList.remove('hidden');
+            loadGroups();
+        }
+
+        function switchGroupTab(tab) {
+            ['feed', 'chat', 'polls', 'resources'].forEach(t => {
+                const section = document.getElementById('groupSection-' + t);
+                const btn = document.getElementById('groupTabBtn-' + t);
+                if (section) section.classList.toggle('hidden', t !== tab);
+                if (btn) btn.className = t === tab ? "flex-1 py-1.5 rounded-lg text-xs font-semibold bg-violet-600 text-white transition" : "flex-1 py-1.5 rounded-lg text-xs font-semibold text-app-textMuted hover:text-violet-500 transition";
+            });
+            if (tab === 'chat') loadGroupChatMessages();
+            if (tab === 'polls') loadGroupPolls();
+            if (tab === 'resources') loadGroupResources();
+        }
+
+        function editGroupRules() {
+            const newRules = prompt('Neue Regeln / Ankündigungen für diese Gruppe eingeben:', activeGroup.rules);
+            if (newRules !== null) {
+                activeGroup.rules = newRules;
+                document.getElementById('activeGroupPinnedRules').innerText = newRules;
+                localStorage.setItem('gewickelt_custom_groups', JSON.stringify(communityGroups));
+            }
+        }
+
+        function loadGroupDataAll() {
+            const savedPosts = localStorage.getItem('gewickelt_group_posts');
+            if (savedPosts) groupPosts = JSON.parse(savedPosts);
+
+            const savedChats = localStorage.getItem('gewickelt_group_chats');
+            if (savedChats) groupChats = JSON.parse(savedChats);
+
+            const savedPolls = localStorage.getItem('gewickelt_group_polls');
+            if (savedPolls) groupPolls = JSON.parse(savedPolls);
+
+            const savedRes = localStorage.getItem('gewickelt_group_resources');
+            if (savedRes) groupResources = JSON.parse(savedRes);
+
+            renderGroupPosts();
+        }
+
+        function createGroupPost() {
+            if (!activeGroup) return;
+            const input = document.getElementById('groupPostInput');
+            const text = input.value.trim();
+            if (!text) return;
+
+            if (!groupPosts[activeGroup.id]) groupPosts[activeGroup.id] = [];
+            groupPosts[activeGroup.id].unshift({
+                id: Date.now(),
+                username: currentUser.username,
+                text: text,
+                date: new Date().toLocaleDateString('de-DE') + ' ' + new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })
+            });
+
+            localStorage.setItem('gewickelt_group_posts', JSON.stringify(groupPosts));
+            input.value = '';
+            renderGroupPosts();
+        }
+
+        function renderGroupPosts() {
+            const container = document.getElementById('groupPostsContainer');
+            if (!activeGroup || !groupPosts[activeGroup.id] || !groupPosts[activeGroup.id].length) {
+                container.innerHTML = '<p class="text-[10px] text-app-textMuted text-center py-4">Noch keine Beiträge in dieser Gruppe.</p>';
+                return;
+            }
+
+            const visiblePosts = groupPosts[activeGroup.id].filter(p => !blockedUsers.includes(p.username));
+
+            container.innerHTML = visiblePosts.map(p => `
+                <div class="custom-input border rounded-xl p-3 space-y-1">
+                    <div class="flex justify-between items-center">
+                        <span class="text-[10px] font-bold text-violet-500">${p.username}</span>
+                        <span class="text-[9px] text-app-textMuted">${p.date}</span>
+                    </div>
+                    <p class="text-xs">${p.text}</p>
+                </div>
+            `).join('');
+        }
+
+        function sendGroupChatMessage() {
+            if (!activeGroup) return;
+            const input = document.getElementById('groupChatInput');
+            const text = input.value.trim();
+            if (!text) return;
+
+            if (!groupChats[activeGroup.id]) groupChats[activeGroup.id] = [];
+            groupChats[activeGroup.id].push({
+                username: currentUser.username,
+                text: text,
+                time: new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })
+            });
+            localStorage.setItem('gewickelt_group_chats', JSON.stringify(groupChats));
+            input.value = '';
+            loadGroupChatMessages();
+        }
+
+        function loadGroupChatMessages() {
+            const container = document.getElementById('groupChatList');
+            if (!activeGroup || !groupChats[activeGroup.id] || !groupChats[activeGroup.id].length) {
+                container.innerHTML = '<p class="text-[10px] text-app-textMuted text-center py-4">Noch keine Live-Chat Nachrichten.</p>';
+                return;
+            }
+
+            const visibleChats = groupChats[activeGroup.id].filter(m => !blockedUsers.includes(m.username));
+
+            container.innerHTML = visibleChats.map(m => `
+                <div class="custom-input border rounded-xl p-2.5 space-y-0.5">
+                    <div class="flex justify-between items-center text-[9px] text-app-textMuted">
+                        <span class="font-bold text-violet-500">${m.username}</span>
+                        <span>${m.time}</span>
+                    </div>
+                    <p class="text-xs">${m.text}</p>
+                </div>
+            `).join('');
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function createGroupPoll() {
+            const question = prompt('Umfrage-Frage eingeben:');
+            const opt1 = prompt('Option 1:');
+            const opt2 = prompt('Option 2:');
+            if (question && opt1 && opt2) {
+                if (!groupPolls[activeGroup.id]) groupPolls[activeGroup.id] = [];
+                groupPolls[activeGroup.id].unshift({
+                    id: Date.now(),
+                    question,
+                    options: [
+                        { text: opt1, votes: 0 },
+                        { text: opt2, votes: 0 }
+                    ],
+                    votedUsers: []
+                });
+                localStorage.setItem('gewickelt_group_polls', JSON.stringify(groupPolls));
+                loadGroupPolls();
+            }
+        }
+
+        function votePoll(pollId, optIndex) {
+            const polls = groupPolls[activeGroup.id];
+            const poll = polls.find(p => p.id === pollId);
+            if (poll && !poll.votedUsers.includes(currentUser.username)) {
+                poll.options[optIndex].votes++;
+                poll.votedUsers.push(currentUser.username);
+                localStorage.setItem('gewickelt_group_polls', JSON.stringify(groupPolls));
+                loadGroupPolls();
+            } else {
+                alert('Du hast bereits an dieser Umfrage teilgenommen.');
+            }
+        }
+
+        function loadGroupPolls() {
+            const container = document.getElementById('groupPollsContainer');
+            if (!activeGroup || !groupPolls[activeGroup.id] || !groupPolls[activeGroup.id].length) {
+                container.innerHTML = '<p class="text-[10px] text-app-textMuted text-center py-4">Keine Umfragen vorhanden.</p>';
+                return;
+            }
+            container.innerHTML = groupPolls[activeGroup.id].map(p => `
+                <div class="custom-input border rounded-xl p-3 space-y-2">
+                    <p class="text-xs font-bold text-violet-500">${p.question}</p>
+                    <div class="space-y-1.5">
+                        ${p.options.map((opt, idx) => `
+                            <button onclick="votePoll(${p.id}, ${idx})" class="w-full text-left p-2 rounded-lg custom-card border flex justify-between items-center text-xs hover:border-violet-500 transition">
+                                <span>${opt.text}</span>
+                                <span class="text-[10px] px-2 py-0.5 bg-violet-500/20 text-violet-500 rounded-full font-semibold">${opt.votes} Stimmen</span>
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function addGroupResource() {
+            const title = prompt('Titel der Ressource / des Links:');
+            const link = prompt('Link oder Beschreibung eingeben:');
+            if (title && link) {
+                if (!groupResources[activeGroup.id]) groupResources[activeGroup.id] = [];
+                groupResources[activeGroup.id].unshift({ title, link });
+                localStorage.setItem('gewickelt_group_resources', JSON.stringify(groupResources));
+                loadGroupResources();
+            }
+        }
+
+        function loadGroupResources() {
+            const container = document.getElementById('groupResourcesContainer');
+            if (!activeGroup || !groupResources[activeGroup.id] || !groupResources[activeGroup.id].length) {
+                container.innerHTML = '<p class="text-[10px] text-app-textMuted text-center py-2">Keine Ressourcen hinterlegt.</p>';
+                return;
+            }
+            container.innerHTML = groupResources[activeGroup.id].map(r => `
+                <div class="custom-input border rounded-xl p-2.5 flex justify-between items-center">
+                    <div>
+                        <p class="text-xs font-bold">${r.title}</p>
+                        <p class="text-[10px] text-app-textMuted truncate max-w-[200px]">${r.link}</p>
+                    </div>
+                    <a href="${r.link.startsWith('http') ? r.link : '#'}" target="_blank" class="px-2.5 py-1 bg-violet-600 text-white rounded-lg text-[9px] font-semibold">Öffnen</a>
+                </div>
+            `).join('');
+        }
+
+        function savePartnerSync() {
+            const partner = document.getElementById('partnerUsernameInput').value.trim();
+            if (!partner) return;
+            localStorage.setItem('gewickelt_partner_' + currentUser.username, partner);
+            document.getElementById('syncStatusBadge').innerText = 'Verknüpft mit ' + partner;
+            document.getElementById('syncStatusBadge').className = 'text-[9px] px-2 py-0.5 bg-emerald-500/20 text-emerald-500 rounded-full font-semibold';
+            alert('Erfolgreich mit Partner ' + partner + ' verknüpft!');
+        }
+
+        function loadPartnerSync() {
+            const saved = localStorage.getItem('gewickelt_partner_' + currentUser.username);
+            if (saved) {
+                document.getElementById('partnerUsernameInput').value = saved;
+                document.getElementById('syncStatusBadge').innerText = 'Verknüpft mit ' + saved;
+                document.getElementById('syncStatusBadge').className = 'text-[9px] px-2 py-0.5 bg-emerald-500/20 text-emerald-500 rounded-full font-semibold';
+            }
+        }
+
+        function rollFlrDice() {
+            playSoundFx();
+            const randomIndex = Math.floor(Math.random() * flrTasksAndPunishmentsPool.length);
+            const resultText = flrTasksAndPunishmentsPool[randomIndex];
+            document.getElementById('currentFlrTaskText').innerText = resultText;
+            localStorage.setItem('gewickelt_current_task_' + currentUser.username, resultText);
+        }
+
+        function uploadTaskProof(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                currentTaskProofImage = e.target.result;
+                const preview = document.getElementById('taskProofPreview');
+                preview.src = currentTaskProofImage;
+                document.getElementById('taskProofPreviewContainer').classList.remove('hidden');
+                document.getElementById('proofStatus').innerText = 'Foto erfolgreich eingereicht';
+                document.getElementById('proofStatus').className = 'text-[9px] text-emerald-500 font-semibold';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function removeTaskProof() {
+            currentTaskProofImage = null;
+            document.getElementById('taskProofPreview').src = '';
+            document.getElementById('taskProofPreviewContainer').classList.add('hidden');
+            document.getElementById('proofStatus').innerText = 'Noch kein Bild hochgeladen';
+            document.getElementById('proofStatus').className = 'text-[9px] text-app-textMuted';
+        }
+
+        function switchFlrTab(tab) {
+            const isTools = tab === 'tools';
+            document.getElementById('flrSection-tools').classList.toggle('hidden', !isTools);
+            document.getElementById('flrSection-hub').classList.toggle('hidden', isTools);
+
+            document.getElementById('flrTabBtn-tools').className = isTools ? "flex-1 py-2 rounded-xl text-xs font-semibold bg-app-accent text-white transition" : "flex-1 py-2 rounded-xl text-xs font-semibold text-app-textMuted hover:text-app-accent transition";
+            document.getElementById('flrTabBtn-hub').className = !isTools ? "flex-1 py-2 rounded-xl text-xs font-semibold bg-amber-600 text-white transition" : "flex-1 py-2 rounded-xl text-xs font-semibold text-app-textMuted hover:text-amber-500 transition";
+        }
+
+        function unlockLeaderHub() {
+            alert('Der Zugang erfordert die Freigabe durch den Administrator. Bitte kontaktiere den Support / Admin.');
+        }
+
+        function lockLeaderHub() {
+            document.getElementById('leaderHubContent').classList.add('hidden');
+            document.getElementById('leaderLockScreen').classList.remove('hidden');
+        }
+
+        function openLeaderFolder(folderName) {
+            currentLeaderFolder = folderName;
+            ['protokolle', 'regeln', 'austausch'].forEach(f => {
+                const btn = document.getElementById('folderBtn-' + f);
+                if (btn) {
+                    btn.className = f === folderName 
+                        ? "p-3 custom-card border border-amber-500/40 rounded-2xl text-center space-y-1 transition bg-amber-500/10"
+                        : "p-3 custom-card border rounded-2xl text-center space-y-1 hover:border-amber-500 transition";
+                }
+            });
+
+            const titles = {
+                'protokolle': 'Ordner: Anträge & Berichte',
+                'regeln': 'Ordner: Regeln & Verträge',
+                'austausch': 'Ordner: Leadership Chat'
+            };
+            document.getElementById('activeFolderTitle').innerHTML = `<i class="fa-solid fa-folder mr-1.5"></i> ${titles[folderName]}`;
+            loadFolderPosts();
+        }
+
+        function loadFolderPosts() {
+            const container = document.getElementById('folderPostsContainer');
+            const countBadge = document.getElementById('folderItemCount');
+            if (!container) return;
+
+            const storageKey = 'gewickelt_folder_' + currentLeaderFolder;
+            const posts = JSON.parse(localStorage.getItem(storageKey) || '[]');
+            countBadge.innerText = posts.length + (posts.length === 1 ? ' Eintrag' : ' Einträge');
+
+            if (!posts.length) {
+                container.innerHTML = '<p class="text-[10px] text-app-textMuted text-center py-4">Keine Anträge oder Einträge in diesem Ordner.</p>';
+                return;
+            }
+
+            container.innerHTML = posts.map(p => `
+                <div class="custom-input border rounded-xl p-3 space-y-1 border-amber-500/20">
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs font-bold text-amber-500">Eintrag von: ${p.username}</span>
+                        <span class="text-[9px] text-app-textMuted">${p.date}</span>
+                    </div>
+                    <p class="text-xs">${p.text}</p>
+                </div>
+            `).join('');
+        }
+
+        function switchChatMode(mode) {
+            const isPublic = mode === 'public';
+            document.getElementById('publicChatSection').classList.toggle('hidden', !isPublic);
+            document.getElementById('dmChatSection').classList.toggle('hidden', isPublic);
+            
+            document.getElementById('chatModeBtn-public').className = isPublic ? "flex-1 py-2 rounded-xl text-xs font-semibold bg-app-accent text-white transition" : "flex-1 py-2 rounded-xl text-xs font-semibold text-app-textMuted hover:text-app-accent transition";
+            document.getElementById('chatModeBtn-dm').className = !isPublic ? "flex-1 py-2 rounded-xl text-xs font-semibold bg-app-accent text-white transition" : "flex-1 py-2 rounded-xl text-xs font-semibold text-app-textMuted hover:text-app-accent transition";
+            
+            if (isPublic) {
+                loadPublicChatMessages();
+            }
+        }
+
+        function saveLifestyleStatus() {
+            const flr = document.getElementById('statusFlr').checked;
+            const baby = document.getElementById('statusBaby').checked;
+            const statement = document.getElementById('userStatusStatement').value.trim();
+            
+            const statusObj = { flr, baby, statement };
+            localStorage.setItem('gewickelt_status_multi_' + currentUser.username, JSON.stringify(statusObj));
+
+            updateStatusDisplay(flr, baby, statement);
+        }
+
+        function loadLifestyleStatus() {
+            const saved = localStorage.getItem('gewickelt_status_multi_' + currentUser.username);
+            if (saved) {
+                try {
+                    const data = JSON.parse(saved);
+                    document.getElementById('statusFlr').checked = !!data.flr;
+                    document.getElementById('statusBaby').checked = !!data.baby;
+                    document.getElementById('userStatusStatement').value = data.statement || '';
+                    updateStatusDisplay(data.flr, data.baby, data.statement);
+                } catch(e) {}
+            } else {
+                updateStatusDisplay(false, false, '');
+            }
+        }
+
+        function updateStatusDisplay(flr, baby, statement) {
+            let activeRoles = [];
+            if (flr) activeRoles.push('👑 FLR');
+            if (baby) activeRoles.push('👶 Baby & Care');
+
+            const display = document.getElementById('lifestyleStatusBadgeDisplay');
+            if (activeRoles.length > 0) {
+                display.innerText = `Aktiver Status: ${activeRoles.join(' • ')}` + (statement ? ` — "${statement}"` : '');
+            } else {
+                display.innerText = statement ? `Status: "${statement}"` : 'Aktiver Status: Keine Rollen ausgewählt';
+            }
+        }
+
+        function openInfoModal(type) {
+            const titleEl = document.getElementById('infoModalTitle');
+            const contentEl = document.getElementById('infoModalContent');
+            const modal = document.getElementById('infoModal');
+
+            titleEl.innerText = type;
+
+            const contents = {
+                'Richtlinien': 'Diese Plattform richtet sich ausschließlich an Erwachsene (18+) und dient dem sicheren Austausch im Bereich ABDL und FLR Lifestyle.',
+                'Kontakt': 'Bei Fragen erreichst du das Community-Team unter: support@gewickelt-lifestyle.de',
+                'Verantwortlich': 'Verantwortlich für den Betrieb im Rahmen des privaten Lifestyle-Austauschs.',
+                'Community Richtlinien': '1. Strenger Konsens & Respekt.\n2. Keine unaufgeforderten Belästigungen.\n3. Altersverifikation ist verpflichtend.',
+                'Impressum': 'Angaben gemäß digitalem Lifestyle-Projekt.\nE-Mail: admin@gewickelt-lifestyle.de'
+            };
+
+            contentEl.innerText = contents[type] || 'Keine Informationen verfügbar.';
+            modal.classList.remove('hidden');
+        }
+
+        function closeInfoModal() {
+            document.getElementById('infoModal').classList.add('hidden');
+        }
+
+        function handlePostImageUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.src = e.target.result;
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const MAX_WIDTH = 800;
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > MAX_WIDTH) {
+                        height = Math.round((height * MAX_WIDTH) / width);
+                        width = MAX_WIDTH;
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    currentPostImage = canvas.toDataURL('image/jpeg', 0.7);
+                    
+                    const preview = document.getElementById('postImagePreview');
+                    preview.src = currentPostImage;
+                    document.getElementById('postImagePreviewContainer').classList.remove('hidden');
+                };
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function removePostImage() {
+            currentPostImage = null;
+            document.getElementById('postImagePreview').src = '';
+            document.getElementById('postImagePreviewContainer').classList.add('hidden');
+        }
+
+        async function loadPublicChatMessages() {
+            const list = document.getElementById('publicChatList');
+            try {
+                const res = await fetch(PUBLIC_CHAT_API_URL);
+                const messages = await res.json();
+
+                if (!messages || !messages.length) {
+                    list.innerHTML = '<p class="text-[10px] text-app-textMuted text-center py-4">Noch keine Nachrichten im öffentlichen Chat.</p>';
+                    return;
+                }
+
+                const visibleMessages = messages.filter(m => !blockedUsers.includes(m.username));
+
+                list.innerHTML = visibleMessages.map(m => {
+                    const isMe = m.username.toLowerCase() === currentUser.username.toLowerCase();
+                    let messageTime = m.time;
+                    if (!messageTime) {
+                        messageTime = new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+                    }
+                    return `
+                        <div class="flex flex-col ${isMe ? 'items-end' : 'items-start'} group relative">
+                            <div class="flex items-center gap-1.5 mb-0.5">
+                                <span class="text-[9px] font-bold ${isMe ? 'text-violet-500' : 'text-purple-500'}">${m.username}</span>
+                                <span class="text-[8px] text-app-textMuted">${messageTime}</span>
+                                ${!isMe ? `
+                                    <div class="flex items-center gap-1 ml-1">
+                                        <button onclick="blockUser('${m.username}')" title="User blockieren" class="text-[8px] text-app-textMuted hover:text-rose-500"><i class="fa-solid fa-ban"></i></button>
+                                        <button onclick="reportUser('${m.username}', 'Chat')" title="User melden" class="text-[8px] text-app-textMuted hover:text-amber-500"><i class="fa-solid fa-flag"></i></button>
+                                    </div>
+                                ` : ''}
+                            </div>
+                            <div class="max-w-[85%] rounded-2xl px-3 py-2 text-xs ${isMe ? 'bg-violet-600 text-white rounded-tr-none' : 'custom-input border rounded-tl-none'}">
+                                ${m.text}
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                list.scrollTop = list.scrollHeight;
+            } catch (err) {
+                list.innerHTML = '<p class="text-[10px] text-rose-500 text-center py-2">Verbindung zum Chat-Server wird hergestellt...</p>';
+            }
+        }
+
+        async function sendPublicMessage() {
+            const input = document.getElementById('publicChatInput');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const timeNow = new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+
+            try {
+                await fetch(PUBLIC_CHAT_API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        username: currentUser.username,
+                        text: text,
+                        time: timeNow
+                    })
+                });
+                input.value = '';
+                loadPublicChatMessages();
+            } catch (err) {
+                alert('Fehler beim Senden der Nachricht.');
+            }
+        }
+
+        function saveFlrSettings() {
+            const rules = document.getElementById('flrRulesInput').value;
+            localStorage.setItem('gewickelt_flr_rules_' + currentUser.username, rules);
+        }
+
+        function loadFlrSettings() {
+            const savedRules = localStorage.getItem('gewickelt_flr_rules_' + currentUser.username);
+            if (savedRules) document.getElementById('flrRulesInput').value = savedRules;
+        }
+
+        function loadFlrTask() {
+            const savedTask = localStorage.getItem('gewickelt_current_task_' + currentUser.username);
+            if (savedTask) {
+                document.getElementById('currentFlrTaskText').innerText = savedTask;
+            }
+        }
+
+        function addJournalEntry() {
+            const title = document.getElementById('journalTitleInput').value.trim();
+            const content = document.getElementById('journalContentInput').value.trim();
+            if (!content) {
+                alert('Bitte schreibe etwas in deinen Tagebucheintrag.');
+                return;
+            }
+
+            const newEntry = {
+                id: Date.now(),
+                title: title || 'Eintrag',
+                content: content,
+                date: new Date().toLocaleDateString('de-DE')
+            };
+
+            journalEntries.unshift(newEntry);
+            saveJournal();
+            document.getElementById('journalTitleInput').value = '';
+            document.getElementById('journalContentInput').value = '';
+            renderJournal();
+        }
+
+        function deleteJournalEntry(id) {
+            journalEntries = journalEntries.filter(e => e.id !== id);
+            saveJournal();
+            renderJournal();
+        }
+
+        function saveJournal() {
+            localStorage.setItem('gewickelt_journal_' + currentUser.username, JSON.stringify(journalEntries));
+        }
+
+        function loadJournal() {
+            const saved = localStorage.getItem('gewickelt_journal_' + currentUser.username);
+            journalEntries = saved ? JSON.parse(saved) : [];
+            renderJournal();
+        }
+
+        function renderJournal() {
+            const container = document.getElementById('journalEntriesContainer');
+            if (!journalEntries.length) {
+                container.innerHTML = '<p class="text-[10px] text-app-textMuted text-center py-2">Noch keine Tagebucheinträge vorhanden.</p>';
+                return;
+            }
+
+            container.innerHTML = journalEntries.map(e => `
+                <div class="custom-input border rounded-xl p-3 space-y-1">
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs font-bold text-violet-500">${e.title}</span>
+                        <div class="flex items-center gap-2">
+                            <span class="text-[9px] text-app-textMuted">${e.date}</span>
+                            <button onclick="deleteJournalEntry(${e.id})" class="text-rose-500 hover:text-rose-400 text-[10px]"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </div>
+                    <p class="text-xs whitespace-pre-wrap">${e.content}</p>
+                </div>
+            `).join('');
+        }
+
+        function setupOrChangeGalleryPassword() {
+            const newPass = prompt('Gib ein neues Passwort für deinen privaten Galerie-Bereich ein:');
+            if (newPass) {
+                localStorage.setItem('gewickelt_gal_pass_' + currentUser.username, newPass);
+                alert('Passwort für den privaten Bereich wurde erfolgreich gespeichert!');
+            }
+        }
+
+        function unlockPrivateGallery() {
+            const inputPass = document.getElementById('privatePasswordInput').value;
+            const savedPass = localStorage.getItem('gewickelt_gal_pass_' + currentUser.username);
+
+            if (!savedPass) {
+                alert('Du hast noch kein Passwort festgelegt.');
+                return;
+            }
+
+            if (inputPass === savedPass) {
+                document.getElementById('privateGalleryLock').classList.add('hidden');
+                document.getElementById('privateGalleryContent').classList.remove('hidden');
+                document.getElementById('privatePasswordInput').value = '';
+            } else {
+                alert('Falsches Passwort!');
+            }
+        }
+
+        function lockPrivateGallery() {
+            document.getElementById('privateGalleryContent').classList.add('hidden');
+            document.getElementById('privateGalleryLock').classList.remove('hidden');
+        }
+
+        function uploadGalleryImage(event, type) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.src = e.target.result;
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const MAX_WIDTH = 800;
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > MAX_WIDTH) {
+                        height = Math.round((height * MAX_WIDTH) / width);
+                        width = MAX_WIDTH;
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    const base64Data = canvas.toDataURL('image/jpeg', 0.7);
+
+                    if (type === 'public') {
+                        publicGallery.push(base64Data);
+                        localStorage.setItem('gewickelt_pub_gal_' + currentUser.username, JSON.stringify(publicGallery));
+                        renderPublicGallery();
+                    } else {
+                        privateGallery.push(base64Data);
+                        try {
+                            localStorage.setItem('gewickelt_priv_gal_' + currentUser.username, JSON.stringify(privateGallery));
+                            renderPrivateGallery();
+                        } catch (err) {
+                            alert('Speicherplatz im Browser ist voll.');
+                            privateGallery.pop();
+                        }
+                    }
+                };
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function loadGalleries() {
+            const savedPub = localStorage.getItem('gewickelt_pub_gal_' + currentUser.username);
+            publicGallery = savedPub ? JSON.parse(savedPub) : [];
+            renderPublicGallery();
+
+            const savedPriv = localStorage.getItem('gewickelt_priv_gal_' + currentUser.username);
+            privateGallery = savedPriv ? JSON.parse(savedPriv) : [];
+            renderPrivateGallery();
+        }
+
+        function renderPublicGallery() {
+            const container = document.getElementById('publicGalleryContainer');
+            if (!publicGallery.length) {
+                container.innerHTML = '<p class="col-span-3 text-[10px] text-app-textMuted text-center py-2">Keine öffentlichen Bilder.</p>';
+                return;
+            }
+            container.innerHTML = publicGallery.map((img, index) => `
+                <div class="relative group aspect-square rounded-xl overflow-hidden border custom-input">
+                    <img src="${img}" class="w-full h-full object-cover">
+                    <button onclick="deleteGalleryImage('public', ${index})" class="absolute top-1 right-1 w-5 h-5 bg-black/70 hover:bg-rose-600 text-white rounded-full flex items-center justify-center text-[9px] transition"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+            `).join('');
+        }
+
+        function renderPrivateGallery() {
+            const container = document.getElementById('privateGalleryContainer');
+            if (!privateGallery.length) {
+                container.innerHTML = '<p class="col-span-3 text-[10px] text-app-textMuted text-center py-2">Keine privaten Bilder.</p>';
+                return;
+            }
+            container.innerHTML = privateGallery.map((img, index) => `
+                <div class="relative group aspect-square rounded-xl overflow-hidden border custom-input">
+                    <img src="${img}" class="w-full h-full object-cover">
+                    <button onclick="deleteGalleryImage('private', ${index})" class="absolute top-1 right-1 w-5 h-5 bg-black/70 hover:bg-rose-600 text-white rounded-full flex items-center justify-center text-[9px] transition"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+            `).join('');
+        }
+
+        function deleteGalleryImage(type, index) {
+            if (type === 'public') {
+                publicGallery.splice(index, 1);
+                localStorage.setItem('gewickelt_pub_gal_' + currentUser.username, JSON.stringify(publicGallery));
+                renderPublicGallery();
+            } else {
+                privateGallery.splice(index, 1);
+                localStorage.setItem('gewickelt_priv_gal_' + currentUser.username, JSON.stringify(privateGallery));
+                renderPrivateGallery();
+            }
+        }
+
+        function uploadAvatarImage(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.src = e.target.result;
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const MAX_WIDTH = 400;
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > MAX_WIDTH) {
+                        height = Math.round((height * MAX_WIDTH) / width);
+                        width = MAX_WIDTH;
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    const base64Data = canvas.toDataURL('image/jpeg', 0.7);
+                    document.getElementById('profileAvatarImg').src = base64Data;
+                    localStorage.setItem('gewickelt_avatar_' + currentUser.username, base64Data);
+                };
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function uploadCoverImage(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.src = e.target.result;
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const MAX_WIDTH = 800;
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > MAX_WIDTH) {
+                        height = Math.round((height * MAX_WIDTH) / width);
+                        width = MAX_WIDTH;
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    const base64Data = canvas.toDataURL('image/jpeg', 0.7);
+                    const coverImg = document.getElementById('profileCoverImg');
+                    coverImg.src = base64Data;
+                    coverImg.classList.remove('hidden');
+
+                    try {
+                        localStorage.setItem('gewickelt_cover_' + currentUser.username, base64Data);
+                    } catch (err) {
+                        alert('Bild ist zu groß.');
+                    }
+                };
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function loadUserProfileData() {
+            const savedAvatar = localStorage.getItem('gewickelt_avatar_' + currentUser.username);
+            if (savedAvatar) document.getElementById('profileAvatarImg').src = savedAvatar;
+
+            const savedCover = localStorage.getItem('gewickelt_cover_' + currentUser.username);
+            if (savedCover) {
+                const coverImg = document.getElementById('profileCoverImg');
+                coverImg.src = savedCover;
+                coverImg.classList.remove('hidden');
+            }
+
+            const savedAbout = localStorage.getItem('gewickelt_about_' + currentUser.username);
+            if (savedAbout) document.getElementById('profileAboutText').value = savedAbout;
+
+            const savedPrefs = localStorage.getItem('gewickelt_preferences_' + currentUser.username);
+            if (savedPrefs) document.getElementById('profilePreferencesText').value = savedPrefs;
+        }
+
+        function saveProfileData() {
+            const about = document.getElementById('profileAboutText').value;
+            const preferences = document.getElementById('profilePreferencesText').value;
+            localStorage.setItem('gewickelt_about_' + currentUser.username, about);
+            localStorage.setItem('gewickelt_preferences_' + currentUser.username, preferences);
+        }
+
+        function addFriend() {
+            const input = document.getElementById('newFriendInput');
+            const friendName = input.value.trim();
+            if (!friendName) return;
+
+            if (friendName.toLowerCase() === currentUser.username.toLowerCase()) {
+                alert('Du kannst dich nicht selbst als Freund hinzufügen.');
+                return;
+            }
+
+            if (friendsList.some(f => f.name.toLowerCase() === friendName.toLowerCase())) {
+                alert('Bereits in der Freundesliste.');
+                return;
+            }
+
+            friendsList.push({ name: friendName, online: Math.random() > 0.3 });
+            saveFriends();
+            input.value = '';
+            renderFriends();
+        }
+
+        function removeFriend(friendName) {
+            friendsList = friendsList.filter(f => f.name !== friendName);
+            saveFriends();
+            renderFriends();
+        }
+
+        function saveFriends() {
+            localStorage.setItem('gewickelt_friends_' + currentUser.username, JSON.stringify(friendsList));
+        }
+
+        function loadFriends() {
+            const saved = localStorage.getItem('gewickelt_friends_' + currentUser.username);
+            friendsList = saved ? JSON.parse(saved) : [];
+            renderFriends();
+        }
+
+        function renderFriends() {
+            const container = document.getElementById('friendsListContainer');
+            const countBadge = document.getElementById('friendCount');
+            countBadge.innerText = friendsList.length + (friendsList.length === 1 ? ' Freund' : ' Freunde');
+
+            if (!friendsList.length) {
+                container.innerHTML = '<p class="text-[10px] text-app-textMuted text-center py-2">Noch keine Freunde gespeichert.</p>';
+                return;
+            }
+
+            container.innerHTML = friendsList.map(f => `
+                <div class="custom-input border rounded-xl p-2.5 flex items-center justify-between">
+                    <div class="flex items-center gap-2.5">
+                        <div class="relative">
+                            <div class="w-8 h-8 rounded-lg bg-violet-600/30 text-violet-500 flex items-center justify-center font-bold text-xs">
+                                ${f.name.charAt(0).toUpperCase()}
+                            </div>
+                            <span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2 custom-input ${f.online ? 'bg-emerald-500' : 'bg-slate-500'}"></span>
+                        </div>
+                        <div>
+                            <h5 class="text-xs font-bold">${f.name}</h5>
+                            <p class="text-[9px] ${f.online ? 'text-emerald-500' : 'text-app-textMuted'}">${f.online ? 'Online' : 'Offline'}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        <button onclick="startChatWith('${f.name}')" title="Nachricht schreiben" class="p-1.5 text-violet-500 hover:text-white bg-violet-500/10 hover:bg-violet-600 rounded-lg text-xs transition">
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                        <button onclick="removeFriend('${f.name}')" title="Entfernen" class="p-1.5 text-rose-500 hover:text-white bg-rose-500/10 hover:bg-rose-600 rounded-lg text-xs transition">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function startChatWith(friendName) {
+            switchTab('chat');
+            switchChatMode('dm');
+            const recipientInput = document.getElementById('dmRecipient');
+            if (recipientInput) {
+                recipientInput.value = friendName;
+                loadDirectMessages();
+            }
+        }
+
+        async function loadPosts() {
+            const feed = document.getElementById('postsFeed');
+            try {
+                const res = await fetch(API_URL);
+                allServerPosts = await res.json();
+                renderFilteredPosts();
+            } catch (err) {
+                feed.innerHTML = '<p class="text-center text-xs text-rose-500 py-4">Verbindung zum Server wird aufgebaut...</p>';
+            }
+        }
+
+        function renderFilteredPosts() {
+            const feed = document.getElementById('postsFeed');
+            let filtered = currentFilter === 'Alle' ? allServerPosts : allServerPosts.filter(p => p.category === currentFilter);
+            
+            filtered = filtered.filter(p => !blockedUsers.includes(p.username));
+
+            if(!filtered.length) {
+                feed.innerHTML = '<p class="text-center text-xs text-app-textMuted py-4">Noch keine Beiträge auf dem Server.</p>';
+                return;
+            }
+
+            feed.innerHTML = filtered.map(p => {
+                const isMe = p.username && p.username.toLowerCase() === currentUser.username.toLowerCase();
+                const postId = p.id || p._id;
+                
+                const likes = p.likes || [];
+                const hasLiked = likes.includes(currentUser.username);
+                const comments = p.comments || [];
+
+                return `
+                    <div class="custom-card border rounded-2xl p-4 space-y-3 shadow-md">
+                        <div class="flex items-center justify-between">
+                            <h4 class="text-xs font-bold flex items-center gap-2">
+                                ${p.username || 'Anonym'}
+                            </h4>
+                            <div class="flex items-center gap-2">
+                                <span class="px-2 py-0.5 bg-purple-500/10 text-purple-500 rounded text-[9px]">${p.category || 'Allgemein'}</span>
+                                ${isMe ? `
+                                    <button onclick="deletePost('${postId}')" title="Beitrag löschen" class="text-rose-500 hover:text-rose-400 text-xs px-1 transition"><i class="fa-solid fa-trash"></i></button>
+                                ` : p.username ? `
+                                    <button onclick="blockUser('${p.username}')" title="Nutzer blockieren" class="text-app-textMuted hover:text-rose-500 text-xs px-1"><i class="fa-solid fa-ban"></i></button>
+                                    <button onclick="reportUser('${p.username}', 'Beitrag')" title="Beitrag melden" class="text-app-textMuted hover:text-amber-500 text-xs px-1"><i class="fa-solid fa-flag"></i></button>
+                                ` : ''}
+                            </div>
+                        </div>
+                        
+                        ${p.content ? `<p class="text-xs">${p.content}</p>` : ''}
+                        
+                        ${p.image ? `
+                            <div class="rounded-xl overflow-hidden border custom-input max-h-72">
+                                <img src="${p.image}" class="w-full h-full object-cover">
+                            </div>
+                        ` : ''}
+
+                        <!-- LIKE & KOMMENTAR LEISTE -->
+                        <div class="flex items-center gap-4 pt-2 border-t border-app-textMuted/20 text-xs">
+                            <button onclick="toggleLike('${postId}')" class="flex items-center gap-1.5 ${hasLiked ? 'text-pink-500 font-bold' : 'text-app-textMuted hover:text-pink-500'} transition">
+                                <i class="${hasLiked ? 'fa-solid' : 'fa-regular'} fa-heart text-sm"></i>
+                                <span>${likes.length}</span>
+                            </button>
+                            <div class="flex items-center gap-1.5 text-app-textMuted">
+                                <i class="fa-regular fa-comment text-sm"></i>
+                                <span>${comments.length} Kommentare</span>
+                            </div>
+                        </div>
+
+                        <!-- KOMMENTAR BEREICH -->
+                        <div class="space-y-2 pt-2 border-t border-app-textMuted/10">
+                            <div class="space-y-1.5 max-h-40 overflow-y-auto">
+                                ${comments.length === 0 ? '<p class="text-[10px] text-app-textMuted">Noch keine Kommentare.</p>' : 
+                                  comments.map(c => `
+                                    <div class="custom-input border rounded-xl p-2 text-[11px] space-y-0.5">
+                                        <div class="flex justify-between items-center text-[9px] text-app-textMuted font-bold">
+                                            <span class="text-violet-500">${c.username}</span>
+                                            <span>${c.date || ''}</span>
+                                        </div>
+                                        <p>${c.text}</p>
+                                    </div>
+                                  `).join('')}
+                            </div>
+                            
+                            <div class="flex gap-2 pt-1">
+                                <input type="text" id="commentInput_${postId}" onkeydown="if(event.key === 'Enter') addComment('${postId}')" placeholder="Kommentar schreiben..." class="flex-1 custom-input border rounded-xl px-3 py-1.5 text-xs outline-none focus:border-app-accent">
+                                <button onclick="addComment('${postId}')" class="px-3 py-1.5 bg-violet-600 hover:bg-violet-500 text-white rounded-xl text-xs font-semibold transition">
+                                    <i class="fa-solid fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        async function toggleLike(postId) {
+            const post = allServerPosts.find(p => (p.id || p._id) === postId);
+            if (!post) return;
+
+            if (!post.likes) post.likes = [];
+            const index = post.likes.indexOf(currentUser.username);
+            
+            if (index > -1) {
+                post.likes.splice(index, 1);
+            } else {
+                post.likes.push(currentUser.username);
+            }
+
+            renderFilteredPosts();
+
+            try {
+                await fetch(`${API_URL}/${postId}/like`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: currentUser.username })
+                });
+            } catch (err) {
+                console.log("Like konnte nicht auf dem Server gespeichert werden", err);
+            }
+        }
+
+        async function addComment(postId) {
+            const input = document.getElementById(`commentInput_${postId}`);
+            if (!input) return;
+            const text = input.value.trim();
+            if (!text) return;
+
+            const post = allServerPosts.find(p => (p.id || p._id) === postId);
+            if (!post) return;
+
+            if (!post.comments) post.comments = [];
+            const newComment = {
+                username: currentUser.username,
+                text: text,
+                date: new Date().toLocaleDateString('de-DE') + ' ' + new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })
+            };
+
+            post.comments.push(newComment);
+            input.value = '';
+
+            renderFilteredPosts();
+
+            try {
+                await fetch(`${API_URL}/${postId}/comment`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(newComment)
+                });
+            } catch (err) {
+                console.log("Kommentar konnte nicht auf dem Server gespeichert werden", err);
+            }
+        }
+
+        async function deletePost(postId) {
+            if (!confirm('Möchtest du diesen Beitrag wirklich löschen?')) return;
+
+            try {
+                const res = await fetch(`${API_URL}/${postId}`, { method: 'DELETE' });
+                if (!res.ok) {
+                    allServerPosts = allServerPosts.filter(p => (p.id || p._id) !== postId);
+                    renderFilteredPosts();
+                } else {
+                    loadPosts();
+                }
+            } catch (err) {
+                allServerPosts = allServerPosts.filter(p => (p.id || p._id) !== postId);
+                renderFilteredPosts();
+            }
+        }
+
+        async function createPost() {
+            const content = document.getElementById('newPostContent').value.trim();
+            const category = document.getElementById('newPostCategory').value;
+            
+            if (!content && !currentPostImage) {
+                alert('Bitte schreibe etwas oder füge ein Bild hinzu.');
+                return;
+            }
+
+            try {
+                await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        username: currentUser.username,
+                        category: category,
+                        content: content,
+                        image: currentPostImage || null,
+                        likes: [],
+                        comments: []
+                    })
+                });
+                document.getElementById('newPostContent').value = '';
+                removePostImage();
+                loadPosts();
+            } catch (err) {
+                alert('Fehler beim Speichern.');
+            }
+        }
+
+        async function sendDirectMessage(e) {
+            e.preventDefault();
+            const recipient = document.getElementById('dmRecipient').value.trim();
+            const text = document.getElementById('directMessageInput').value.trim();
+            if (!recipient || !text) {
+                alert('Bitte Empfänger und Nachricht eingeben.');
+                return;
+            }
+
+            try {
+                await fetch(MESSAGES_API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        from: currentUser.username,
+                        to: recipient,
+                        text: text
+                    })
+                });
+                document.getElementById('directMessageInput').value = '';
+                loadDirectMessages();
+            } catch (err) {
+                alert('Fehler beim Senden.');
+            }
+        }
+
+        async function loadDirectMessages() {
+            const recipient = document.getElementById('dmRecipient').value.trim();
+            const list = document.getElementById('directMessageList');
+            if (!recipient) return;
+
+            try {
+                const res = await fetch(`${MESSAGES_API_URL}/${encodeURIComponent(currentUser.username)}`);
+                const messages = await res.json();
+                const conversation = messages.filter(m => 
+                    (m.from.toLowerCase() === currentUser.username.toLowerCase() && m.to.toLowerCase() === recipient.toLowerCase()) ||
+                    (m.from.toLowerCase() === recipient.toLowerCase() && m.to.toLowerCase() === currentUser.username.toLowerCase())
+                );
+
+                if (!conversation.length) {
+                    list.innerHTML = '<p class="text-[10px] text-app-textMuted text-center py-2">Noch keine Nachrichten.</p>';
+                    return;
+                }
+
+                list.innerHTML = conversation.map(m => `
+                    <div class="rounded-xl p-2.5 custom-input border">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-[10px] font-bold text-violet-500">${m.from}</span>
+                            <span class="text-[9px] text-app-textMuted">${m.time}</span>
+                        </div>
+                        <p class="text-xs">${m.text}</p>
+                    </div>
+                `).join('');
+            } catch (err) {
+                list.innerHTML = '<p class="text-[10px] text-rose-500">Fehler beim Laden.</p>';
+            }
+        }
+
+        function filterCategory(cat) {
+            currentFilter = cat;
+            ['Alle', 'FLR', 'Windeldisziplinierung'].forEach(c => {
+                const btn = document.getElementById('cat-' + c);
+                if (btn) btn.className = c === cat ? "px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap bg-app-accent text-white" : "px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap custom-card border";
+            });
+            renderFilteredPosts();
+        }
+
+        function toggleSideMenu() {
+            document.getElementById('sideMenu').classList.toggle('hidden');
+        }
+    </script>
+</body>
+</html>
+
