@@ -2,6 +2,9 @@
 <html lang="de" class="dark h-full">
 <head>
     <meta charset="UTF-8">
+    <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+    <script>eruda.init();</script>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Gewickelt - ABDL & FLR Lifestyle</title>
 
@@ -78,23 +81,16 @@
     <div id="panicFacade" class="fixed inset-0 z-50 bg-slate-900 text-slate-100 p-6 hidden flex flex-col justify-between">
         <div class="space-y-4">
             <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-                <h2 class="text-lg font-bold"><i class="fa-solid fa-cloud-sun text-amber-400 mr-2"></i> Wetter & Notizen</h2>
+                <h2 class="text-lg font-bold"><i class="fa-solid fa-file-lines text-slate-400 mr-2"></i> Meine Notizen</h2>
                 <button onclick="disablePanicMode()" class="px-3 py-1 bg-slate-800 rounded-lg text-xs font-semibold hover:bg-slate-700 transition">Beenden</button>
             </div>
-            <div class="p-4 bg-slate-800/50 rounded-2xl space-y-2 border border-slate-700/50">
-                <p class="text-sm font-semibold">Aktuelles Wetter: Berlin, 18°C</p>
-                <p class="text-xs text-slate-400">Leicht bewölkt. Keine besonderen Vorkommnisse.</p>
-            </div>
-            <div class="space-y-2">
-                <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Einkaufszettel & Aufgaben</h3>
-                <ul class="text-xs space-y-1.5 text-slate-300">
-                    <li class="p-2 bg-slate-800/30 rounded-lg">- Milch & Eier kaufen</li>
-                    <li class="p-2 bg-slate-800/30 rounded-lg">- Pflanzen im Wohnzimmer gießen</li>
-                    <li class="p-2 bg-slate-800/30 rounded-lg">- Wöchentlichen Bericht fertigstellen</li>
-                </ul>
+            <div class="p-4 bg-slate-800/50 rounded-2xl space-y-2 border border-slate-700/50 text-center py-20">
+                <i class="fa-solid fa-triangle-exclamation text-amber-500 text-3xl mb-2"></i>
+                <p class="text-sm font-semibold">Keine Verbindung zum Server</p>
+                <p class="text-xs text-slate-400">Du wirst zurzeit als <strong>offline</strong> markiert. Versuche es später erneut.</p>
             </div>
         </div>
-        <p class="text-[10px] text-center text-slate-500">Notiz-App v1.0 • Lokal gesichert</p>
+        <p class="text-[10px] text-center text-slate-500">Status: Offline • Lokal gesichert</p>
     </div>
 
     <!-- APP PIN SPERRE OVERLAY -->
@@ -340,9 +336,9 @@
                             <i class="fa-solid fa-dice text-violet-500 text-sm mb-1"></i>
                             <p class="text-[9px] font-semibold">Würfel</p>
                         </button>
-                        <button onclick="switchTab('profile')" class="p-2 custom-input hover:border-violet-500 rounded-xl text-center transition">
-                            <i class="fa-solid fa-book text-purple-500 text-sm mb-1"></i>
-                            <p class="text-[9px] font-semibold">Tagebuch</p>
+                        <button onclick="switchTab('chastity')" class="p-2 custom-input hover:border-violet-500 rounded-xl text-center transition">
+                            <i class="fa-solid fa-lock text-amber-500 text-sm mb-1"></i>
+                            <p class="text-[9px] font-semibold">Keuschheit</p>
                         </button>
                         <button onclick="switchTab('flr'); switchFlrTab('hub');" class="p-2 custom-input hover:border-violet-500 rounded-xl text-center transition">
                             <i class="fa-solid fa-key text-amber-500 text-sm mb-1"></i>
@@ -463,6 +459,44 @@
                 </div>
             </div>
 
+            <!-- HAUPTOPTION: KEUSCHHEIT (OHNE TIMER) -->
+            <div id="view-chastity" class="hidden space-y-4">
+                <div class="custom-card border rounded-2xl p-5 space-y-4 shadow-lg border-amber-500/30">
+                    <div class="flex justify-between items-center border-b border-app-textMuted/20 pb-3">
+                        <div>
+                            <h3 class="text-sm font-bold text-amber-500 flex items-center gap-2">
+                                <i class="fa-solid fa-lock"></i> Keuschheits-Verwaltung
+                            </h3>
+                            <p class="text-[10px] text-app-textMuted mt-0.5">Status & Schlüsselverwalter-Protokolle</p>
+                        </div>
+                        <span id="chastityStatusBadge" class="text-[9px] px-2.5 py-1 bg-amber-500/20 text-amber-500 rounded-full font-semibold">
+                            Status: Verschlossen
+                        </span>
+                    </div>
+
+                    <div class="space-y-3">
+                        <div>
+                            <label class="block text-[10px] font-semibold text-app-textMuted uppercase mb-1">Schlüsselverwalter / Keyholder</label>
+                            <input type="text" id="keyholderNameInput" oninput="saveChastityData()" placeholder="Name der Führungsperson..." class="w-full custom-input border rounded-xl px-3 py-2 text-xs outline-none focus:border-amber-500">
+                        </div>
+
+                        <div>
+                            <label class="block text-[10px] font-semibold text-app-textMuted uppercase mb-1">Aktueller Keuschheits-Status</label>
+                            <select id="chastityStateSelect" onchange="saveChastityData()" class="w-full custom-input border rounded-xl px-3 py-2 text-xs outline-none focus:border-amber-500">
+                                <option value="Verschlossen">🔒 Verschlossen (Kein Zugang)</option>
+                                <option value="Freigabe erteilt">🔑 Freigabe erteilt (Schlüssel übergeben)</option>
+                                <option value="Reinigung / Pflege">🚿 Feuchte Reinigung & Pflege</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-[10px] font-semibold text-app-textMuted uppercase mb-1">Anweisungen & Notizen der Keyholderin</label>
+                            <textarea id="chastityNotesInput" rows="3" oninput="saveChastityData()" placeholder="Besondere Anweisungen, Regeln oder Bedingungen..." class="w-full custom-input border rounded-xl p-3 text-xs placeholder-app-textMuted outline-none resize-none focus:border-amber-500"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- GRUPPEN & ERWEITERTE FEATURES -->
             <div id="view-groups" class="hidden space-y-4">
                 <div id="groupsMainView" class="custom-card border rounded-2xl p-4 space-y-3 shadow-lg">
@@ -547,11 +581,11 @@
                 </div>
             </div>
 
-            <!-- FLR & LIFESTYLE TOOLS (OHNE KEUSCHHEITSTIMER) -->
+            <!-- FLR & LIFESTYLE TOOLS -->
             <div id="view-flr" class="hidden space-y-4">
                 <div class="flex custom-card border rounded-2xl p-1 shadow-md">
                     <button onclick="switchFlrTab('tools')" id="flrTabBtn-tools" class="flex-1 py-2 rounded-xl text-xs font-semibold bg-app-accent text-white transition">
-                        <i class="fa-solid fa-dharmachakra mr-1"></i> FLR Tools & Glücksrad
+                        <i class="fa-solid fa-dharmachakra mr-1"></i> FLR Tools
                     </button>
                     <button onclick="switchFlrTab('hub')" id="flrTabBtn-hub" class="flex-1 py-2 rounded-xl text-xs font-semibold text-app-textMuted hover:text-amber-500 transition">
                         <i class="fa-solid fa-crown text-amber-500 mr-1"></i> Leadership Lounge
@@ -625,31 +659,11 @@
                     </div>
                 </div>
 
+                <!-- FREIGESCHALTETE LOUNGE (OHNE PASSWORT-SPERRE) -->
                 <div id="flrSection-hub" class="hidden space-y-4">
-                    <div id="leaderLockScreen" class="custom-card border rounded-3xl p-6 text-center space-y-4 shadow-2xl border-amber-500/30">
-                        <div class="w-14 h-14 mx-auto rounded-2xl bg-amber-500/20 text-amber-500 flex items-center justify-center text-2xl">
-                            <i class="fa-solid fa-crown"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-sm font-bold">Keyholder & Leader Exklusiv-Bereich</h3>
-                            <p class="text-[11px] text-app-textMuted mt-1">Exklusiver Bereich für verifizierte Keyholder.</p>
-                        </div>
-                        <div class="p-3 bg-amber-500/10 border border-amber-500/30 rounded-2xl text-xs text-amber-200 leading-relaxed">
-                            <i class="fa-solid fa-circle-info mr-1"></i> <strong>Passwort Anfrage nur über Administrator</strong><br>
-                            Der Zugang ist strengstens verifiziert. Bitte wende dich für das Zugangspasswort direkt an den Administrator oder Support.
-                        </div>
-                        <div class="space-y-3 max-w-xs mx-auto pt-2">
-                            <input type="password" id="leaderHubPassInput" placeholder="Passwort eingeben" class="w-full px-4 py-2.5 rounded-xl border custom-input text-xs outline-none text-center">
-                            <button onclick="unlockLeaderHub()" class="w-full py-3 bg-gradient-to-r from-amber-600 to-violet-600 text-white font-bold rounded-xl text-xs shadow-lg hover:opacity-95 transition">
-                                Bereich entsperren <i class="fa-solid fa-unlock ml-1"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div id="leaderHubContent" class="hidden space-y-4">
+                    <div id="leaderHubContent" class="space-y-4">
                         <div class="flex justify-between items-center bg-amber-500/10 border border-amber-500/30 p-3 rounded-2xl">
-                            <span class="text-xs font-bold text-amber-500 flex items-center gap-1.5"><i class="fa-solid fa-shield-halved"></i> Führende Lounge (Verifiziert)</span>
-                            <button onclick="lockLeaderHub()" class="px-2.5 py-1 custom-input hover:bg-rose-500/20 text-rose-500 rounded-lg text-[10px] font-semibold transition">Sperren</button>
+                            <span class="text-xs font-bold text-amber-500 flex items-center gap-1.5"><i class="fa-solid fa-shield-halved"></i> Führende Lounge (Freigeschaltet)</span>
                         </div>
 
                         <div class="grid grid-cols-3 gap-2">
@@ -841,11 +855,11 @@
             </div>
         </main>
 
-        <!-- BOTTOM NAVIGATION -->
+        <!-- BOTTOM NAVIGATION ERWEITERT UM KEUSCHHEIT -->
         <nav class="fixed bottom-0 left-0 right-0 backdrop-blur-md border-t px-2 py-2.5 flex justify-around items-center z-40 max-w-lg mx-auto custom-card">
             <button onclick="switchTab('forum')" id="nav-forum" class="flex flex-col items-center gap-1 text-app-accent"><i class="fa-solid fa-comments text-lg"></i><span class="text-[9px] font-semibold">Forum</span></button>
             <button onclick="switchTab('chat')" id="nav-chat" class="flex flex-col items-center gap-1 text-app-textMuted hover:text-app-accent"><i class="fa-solid fa-paper-plane text-lg"></i><span class="text-[9px] font-semibold">Chat</span></button>
-            <button onclick="switchTab('groups')" id="nav-groups" class="flex flex-col items-center gap-1 text-app-textMuted hover:text-app-accent"><i class="fa-solid fa-users text-lg"></i><span class="text-[9px] font-semibold">Gruppen</span></button>
+            <button onclick="switchTab('chastity')" id="nav-chastity" class="flex flex-col items-center gap-1 text-app-textMuted hover:text-app-accent"><i class="fa-solid fa-lock text-lg"></i><span class="text-[9px] font-semibold">Keuschheit</span></button>
             <button onclick="switchTab('flr')" id="nav-flr" class="flex flex-col items-center gap-1 text-app-textMuted hover:text-app-accent"><i class="fa-solid fa-crown text-lg"></i><span class="text-[9px] font-semibold">FLR</span></button>
             <button onclick="switchTab('profile')" id="nav-profile" class="flex flex-col items-center gap-1 text-app-textMuted hover:text-app-accent"><i class="fa-solid fa-user text-lg"></i><span class="text-[9px] font-semibold">Profil</span></button>
         </nav>
@@ -863,6 +877,7 @@
                 <div class="space-y-1.5">
                     <button onclick="switchTab('forum'); toggleSideMenu();" class="w-full text-left px-3 py-2 rounded-xl text-xs font-semibold hover:bg-app-accent/10 transition flex items-center gap-2.5"><i class="fa-solid fa-comments text-violet-500 w-4"></i> Forum</button>
                     <button onclick="switchTab('chat'); toggleSideMenu();" class="w-full text-left px-3 py-2 rounded-xl text-xs font-semibold hover:bg-app-accent/10 transition flex items-center gap-2.5"><i class="fa-solid fa-paper-plane text-violet-500 w-4"></i> Chat</button>
+                    <button onclick="switchTab('chastity'); toggleSideMenu();" class="w-full text-left px-3 py-2 rounded-xl text-xs font-semibold hover:bg-app-accent/10 transition flex items-center gap-2.5"><i class="fa-solid fa-lock text-amber-500 w-4"></i> Keuschheit</button>
                     <button onclick="switchTab('groups'); toggleSideMenu();" class="w-full text-left px-3 py-2 rounded-xl text-xs font-semibold hover:bg-app-accent/10 transition flex items-center gap-2.5"><i class="fa-solid fa-users text-violet-500 w-4"></i> Gruppen</button>
                     <button onclick="switchTab('flr'); toggleSideMenu();" class="w-full text-left px-3 py-2 rounded-xl text-xs font-semibold hover:bg-app-accent/10 transition flex items-center gap-2.5"><i class="fa-solid fa-crown text-violet-500 w-4"></i> FLR & Lounge</button>
                     <button onclick="switchTab('profile'); toggleSideMenu();" class="w-full text-left px-3 py-2 rounded-xl text-xs font-semibold hover:bg-app-accent/10 transition flex items-center gap-2.5"><i class="fa-solid fa-user text-violet-500 w-4"></i> Profil</button>
@@ -971,30 +986,6 @@
             } catch(e) {}
         }
 
-        function playNotificationSound() {
-            try {
-                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(587.33, audioCtx.currentTime);
-                gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.start();
-                osc.stop(audioCtx.currentTime + 0.3);
-            } catch (e) {}
-        }
-
-        function triggerNotificationBlob(tabElementId) {
-            playNotificationSound();
-            const el = document.getElementById(tabElementId);
-            if (el) {
-                el.classList.add('notification-blob');
-            }
-        }
-
         document.addEventListener('DOMContentLoaded', () => {
             const savedTheme = localStorage.getItem('gewickelt_theme');
             if (savedTheme === 'light') {
@@ -1021,12 +1012,40 @@
                 document.getElementById('authOverlay').classList.remove('hidden');
             }
 
+            loadChastityData();
+
             setInterval(() => {
                 if (!document.getElementById('view-chat').classList.contains('hidden')) {
                     loadPublicChatMessages();
                 }
             }, 3000);
         });
+
+        function saveChastityData() {
+            const keyholder = document.getElementById('keyholderNameInput').value;
+            const state = document.getElementById('chastityStateSelect').value;
+            const notes = document.getElementById('chastityNotesInput').value;
+            
+            document.getElementById('chastityStatusBadge').innerText = 'Status: ' + state;
+            
+            const data = { keyholder, state, notes };
+            localStorage.setItem('gewickelt_chastity_data', JSON.stringify(data));
+        }
+
+        function loadChastityData() {
+            const saved = localStorage.getItem('gewickelt_chastity_data');
+            if (saved) {
+                try {
+                    const data = JSON.parse(saved);
+                    if (data.keyholder) document.getElementById('keyholderNameInput').value = data.keyholder;
+                    if (data.state) {
+                        document.getElementById('chastityStateSelect').value = data.state;
+                        document.getElementById('chastityStatusBadge').innerText = 'Status: ' + data.state;
+                    }
+                    if (data.notes) document.getElementById('chastityNotesInput').value = data.notes;
+                } catch(e) {}
+            }
+        }
 
         function openForgotPasswordModal() {
             document.getElementById('forgotPasswordModal').classList.remove('hidden');
@@ -1178,6 +1197,7 @@
             localStorage.removeItem('gewickelt_flr_rules_' + currentUser.username);
             localStorage.removeItem('gewickelt_current_task_' + currentUser.username);
             localStorage.removeItem('gewickelt_partner_' + currentUser.username);
+            localStorage.removeItem('gewickelt_chastity_data');
 
             alert('Dein Account wurde erfolgreich gelöscht.');
             location.reload();
@@ -1341,7 +1361,7 @@
         }
 
         function switchTab(tabId) {
-            const tabs = ['forum', 'chat', 'groups', 'flr', 'profile'];
+            const tabs = ['forum', 'chat', 'groups', 'flr', 'profile', 'chastity'];
             tabs.forEach(id => {
                 const view = document.getElementById('view-' + id);
                 const btn = document.getElementById('nav-' + id);
@@ -1778,15 +1798,6 @@
 
             document.getElementById('flrTabBtn-tools').className = isTools ? "flex-1 py-2 rounded-xl text-xs font-semibold bg-app-accent text-white transition" : "flex-1 py-2 rounded-xl text-xs font-semibold text-app-textMuted hover:text-app-accent transition";
             document.getElementById('flrTabBtn-hub').className = !isTools ? "flex-1 py-2 rounded-xl text-xs font-semibold bg-amber-600 text-white transition" : "flex-1 py-2 rounded-xl text-xs font-semibold text-app-textMuted hover:text-amber-500 transition";
-        }
-
-        function unlockLeaderHub() {
-            alert('Der Zugang erfordert die Freigabe durch den Administrator. Bitte kontaktiere den Support / Admin.');
-        }
-
-        function lockLeaderHub() {
-            document.getElementById('leaderHubContent').classList.add('hidden');
-            document.getElementById('leaderLockScreen').classList.remove('hidden');
         }
 
         function openLeaderFolder(folderName) {
@@ -2479,12 +2490,13 @@
                                   `).join('')}
                             </div>
                             
-                            <div class="flex gap-2 pt-1">
-                                <input type="text" id="commentInput_${postId}" onkeydown="if(event.key === 'Enter') addComment('${postId}')" placeholder="Kommentar schreiben..." class="flex-1 custom-input border rounded-xl px-3 py-1.5 text-xs outline-none focus:border-app-accent">
-                                <button onclick="addComment('${postId}')" class="px-3 py-1.5 bg-violet-600 hover:bg-violet-500 text-white rounded-xl text-xs font-semibold transition">
+                            <!-- FORMULAR LÖST DAS PROBLEM MIT DEM ABSENDEN AUF ANDROID -->
+                            <form onsubmit="addComment(event, '${postId}')" class="flex gap-2 pt-1">
+                                <input type="text" id="commentInput_${postId}" placeholder="Kommentar schreiben..." class="flex-1 custom-input border rounded-xl px-3 py-1.5 text-xs outline-none focus:border-app-accent">
+                                <button type="submit" class="px-3 py-1.5 bg-violet-600 hover:bg-violet-500 text-white rounded-xl text-xs font-semibold transition">
                                     <i class="fa-solid fa-paper-plane"></i>
                                 </button>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 `;
@@ -2517,7 +2529,9 @@
             }
         }
 
-        async function addComment(postId) {
+        async function addComment(event, postId) {
+            event.preventDefault(); // Verhindert das Neuladen der Seite durch das Formular
+            
             const input = document.getElementById(`commentInput_${postId}`);
             if (!input) return;
             const text = input.value.trim();
@@ -2669,4 +2683,3 @@
     </script>
 </body>
 </html>
-
