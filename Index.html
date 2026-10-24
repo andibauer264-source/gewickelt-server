@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
-    <script>eruda.init();</script>
+<script>eruda.init();</script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Gewickelt - ABDL & FLR Lifestyle</title>
@@ -2390,7 +2390,7 @@
                         <button onclick="startChatWith('${f.name}')" title="Nachricht schreiben" class="p-1.5 text-violet-500 hover:text-white bg-violet-500/10 hover:bg-violet-600 rounded-lg text-xs transition">
                             <i class="fa-solid fa-paper-plane"></i>
                         </button>
-                        <button onclick="removeFriend('${f.name}')" title="Entfernen" class="p-1.5 text-rose-500 hover:text-white bg-rose-500/10 hover:bg-rose-600 rounded-lg text-xs transition">
+                        <button onclick="removeFriend('${f.name}')" title="Entfernen" class="p-1.5 text-rose-500 hover:text-white bg-rose-500/10 bg-rose-500/10 hover:bg-rose-600 rounded-lg text-xs transition">
                             <i class="fa-solid fa-trash"></i>
                         </button>
                     </div>
@@ -2475,7 +2475,7 @@
                             </div>
                         </div>
 
-                        <!-- KOMMENTAR BEREICH -->
+                        <!-- KOMMENTAR BEREICH (DIREKT ÜBER JS GESTEUERT) -->
                         <div class="space-y-2 pt-2 border-t border-app-textMuted/10">
                             <div class="space-y-1.5 max-h-40 overflow-y-auto">
                                 ${comments.length === 0 ? '<p class="text-[10px] text-app-textMuted">Noch keine Kommentare.</p>' : 
@@ -2490,13 +2490,12 @@
                                   `).join('')}
                             </div>
                             
-                            <!-- FORMULAR LÖST DAS PROBLEM MIT DEM ABSENDEN AUF ANDROID -->
-                            <form onsubmit="addComment(event, '${postId}')" class="flex gap-2 pt-1">
-                                <input type="text" id="commentInput_${postId}" placeholder="Kommentar schreiben..." class="flex-1 custom-input border rounded-xl px-3 py-1.5 text-xs outline-none focus:border-app-accent">
-                                <button type="submit" class="px-3 py-1.5 bg-violet-600 hover:bg-violet-500 text-white rounded-xl text-xs font-semibold transition">
+                            <div class="flex gap-2 pt-1">
+                                <input type="text" id="commentInput_${postId}" onkeydown="if(event.key === 'Enter') addCommentDirect('${postId}')" placeholder="Kommentar schreiben..." class="flex-1 custom-input border rounded-xl px-3 py-1.5 text-xs outline-none focus:border-app-accent">
+                                <button type="button" onclick="addCommentDirect('${postId}')" class="px-3 py-1.5 bg-violet-600 hover:bg-violet-500 text-white rounded-xl text-xs font-semibold transition">
                                     <i class="fa-solid fa-paper-plane"></i>
                                 </button>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 `;
@@ -2529,9 +2528,11 @@
             }
         }
 
-        async function addComment(event, postId) {
-            event.preventDefault(); // Verhindert das Neuladen der Seite durch das Formular
-            
+        function addCommentDirect(postId) {
+            addComment(postId);
+        }
+
+        async function addComment(postId) {
             const input = document.getElementById(`commentInput_${postId}`);
             if (!input) return;
             const text = input.value.trim();
